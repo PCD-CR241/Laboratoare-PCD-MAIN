@@ -6,7 +6,7 @@ public class App
     {
         int[] arr = new int[100];
 
-        for(int i = 0; i < 99; i++){
+        for(int i = 0; i < arr.length; i++){
 
             arr[i] = (int)(Math.random() * 99);
             System.out.print(arr[i] + ", ");
@@ -37,38 +37,37 @@ class SumEvenNum extends Thread {
 
     }
 
-    private void sumEven(int index, int step, int[] arr){
+    private void sumEven(int max_min, int index, int step, int[] arr){
 
         int num1 = 0, num2 = 0;
 
         try{
 
-            if(arr[index] % 2 == 0){
+            while(index != max_min + step){
 
-                num1 = index;
-                index += step;
+                if(arr[index] % 2 == 0){
 
-                do{
+                    num1 = index;
+                    index += step;
 
-                    if(arr[index] % 2 == 0){
+                    
+                    while(arr[index] % 2 != 0){
 
-                        num2 = index;
-                        break;
+                        index += step;
                     }
 
-                }while(arr[index] % 2 != 0);
+                    num2 = index;
+                    int res = num1 + num2;
+                    System.out.println(getName() + ": " + num1 + " + " + num2 + " = " + res);
+                }
 
-            }else{
-
-                index += step;
+                index += step;   
             }
-        }catch(ArrayIndexOutOfBoundsException e){
-            System.err.println("Tabloul nu mai are alte elemente");
-        }
 
-                        
-        int res = num1 + num2;
-        System.out.println(getName() + ": " + res);
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println(getName() + ": Tabelul nu are mai multe elemente");
+        }
+        
     }
 
     public void run(){
@@ -79,22 +78,16 @@ class SumEvenNum extends Thread {
             step = -1;
             i = from;
 
-            while(i != to){
-
-                sumEven(i, step, arr);
-
-            }
+            sumEven(to, i, step, arr);
 
         }else{
 
             step = 1;
-            j = to;
+            j = from;
 
-            while(j != from){
+            sumEven(to, j, step, arr);
 
-                sumEven(j, step, arr);
 
-            }
         }
 
         
