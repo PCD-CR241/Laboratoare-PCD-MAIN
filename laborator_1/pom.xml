@@ -15,9 +15,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
+    <javafx.version>21.0.5</javafx.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -77,6 +83,18 @@
         <version>3.1.0</version>
         <configuration>
           <mainClass>com.laborator.App</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>com.laborator.FxApp</mainClass>
+          <options>
+            <!-- OpenGL rendering fails under WSL, use software rendering -->
+            <option>-Dprism.order=sw</option>
+          </options>
         </configuration>
       </plugin>
     </plugins>

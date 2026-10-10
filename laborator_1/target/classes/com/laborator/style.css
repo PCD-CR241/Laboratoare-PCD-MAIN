@@ -1,0 +1,280 @@
+/* ---------- general ---------- */
+
+.root {
+    -fx-background-color: #f1f3f6;
+    -fx-font-size: 13px;
+
+    -unu-color: #2563eb;
+    -unu-light: #dbeafe;
+    -doi-color: #ea580c;
+    -doi-light: #ffedd5;
+}
+
+.content {
+    -fx-padding: 16;
+}
+
+/* ---------- header ---------- */
+
+.header {
+    -fx-background-color: linear-gradient(to right, #1e293b, #334155);
+    -fx-padding: 16 24;
+    -fx-alignment: center-left;
+}
+
+.title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.subtitle {
+    -fx-text-fill: #cbd5e1;
+}
+
+.status {
+    -fx-text-fill: #93c5fd;
+    -fx-padding: 4 0 0 0;
+}
+
+.button.primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 28;
+    -fx-cursor: hand;
+}
+
+.button.primary:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+.button.primary:pressed {
+    -fx-background-color: #1e40af;
+}
+
+.button.primary:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* ---------- cards ---------- */
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 10, 0, 0, 2);
+}
+
+.card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.card-subtitle {
+    -fx-text-fill: #64748b;
+}
+
+.card-head {
+    -fx-alignment: center-left;
+}
+
+.result-card {
+    -fx-min-width: 200;
+}
+
+/* ---------- array grid ---------- */
+
+.grid {
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+}
+
+.num-cell {
+    -fx-pref-width: 50;
+    -fx-pref-height: 42;
+    -fx-alignment: center;
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 6;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+}
+
+.cell-index {
+    -fx-font-size: 9px;
+    -fx-text-fill: #94a3b8;
+}
+
+.cell-value {
+    -fx-font-size: 15px;
+    -fx-text-fill: #94a3b8;
+}
+
+.num-cell.even .cell-value {
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: bold;
+}
+
+.num-cell.even {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #cbd5e1;
+}
+
+.num-cell.unu {
+    -fx-background-color: -unu-light;
+    -fx-border-color: -unu-color;
+}
+
+.num-cell.doi {
+    -fx-background-color: -doi-light;
+    -fx-border-color: -doi-color;
+}
+
+.num-cell.unu.doi {
+    -fx-background-color: linear-gradient(to bottom right, -unu-light 50%, -doi-light 50%);
+    -fx-border-color: #64748b;
+}
+
+.num-cell.selected {
+    -fx-border-color: #0f172a;
+    -fx-border-width: 2.5;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.35), 6, 0, 0, 0);
+}
+
+/* ---------- legend ---------- */
+
+.legend {
+    -fx-padding: 4 0 0 0;
+}
+
+.legend-item {
+    -fx-alignment: center-left;
+}
+
+.legend-text {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+}
+
+.legend-box {
+    -fx-min-width: 12;
+    -fx-min-height: 12;
+    -fx-max-width: 12;
+    -fx-max-height: 12;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-border-width: 1.5;
+}
+
+.legend-box.even {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #cbd5e1;
+}
+
+.legend-box.unu {
+    -fx-background-color: -unu-light;
+    -fx-border-color: -unu-color;
+}
+
+.legend-box.doi {
+    -fx-background-color: -doi-light;
+    -fx-border-color: -doi-color;
+}
+
+.legend-box.both {
+    -fx-background-color: linear-gradient(to bottom right, -unu-light 50%, -doi-light 50%);
+    -fx-border-color: #64748b;
+}
+
+/* ---------- execution order list ---------- */
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+}
+
+.list-view .list-cell {
+    -fx-padding: 5 10;
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+.list-view .list-cell:empty {
+    -fx-border-color: transparent;
+}
+
+/* colored stripe on the left shows which thread printed the line */
+.list-view .list-cell.row-unu {
+    -fx-background-color: -unu-color, white;
+    -fx-background-insets: 0, 0 0 0 4;
+}
+
+.list-view .list-cell.row-doi {
+    -fx-background-color: -doi-color, white;
+    -fx-background-insets: 0, 0 0 0 4;
+}
+
+.list-view .list-cell.row-unu:hover {
+    -fx-background-color: -unu-color, -unu-light;
+}
+
+.list-view .list-cell.row-doi:hover {
+    -fx-background-color: -doi-color, -doi-light;
+}
+
+.list-view .list-cell.row-unu:selected {
+    -fx-background-color: -unu-color, #bfdbfe;
+}
+
+.list-view .list-cell.row-doi:selected {
+    -fx-background-color: -doi-color, #fed7aa;
+}
+
+.result-row {
+    -fx-alignment: center-left;
+}
+
+.order {
+    -fx-min-width: 36;
+    -fx-text-fill: #94a3b8;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 12px;
+}
+
+.tag {
+    -fx-min-width: 42;
+    -fx-alignment: center;
+    -fx-padding: 2 8;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.tag.unu {
+    -fx-background-color: -unu-color;
+}
+
+.tag.doi {
+    -fx-background-color: -doi-color;
+}
+
+.result-text {
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 13px;
+    -fx-text-fill: #0f172a;
+}
+
+.list-cell.message .result-text {
+    -fx-font-family: "System";
+    -fx-font-style: italic;
+    -fx-text-fill: #64748b;
+}
