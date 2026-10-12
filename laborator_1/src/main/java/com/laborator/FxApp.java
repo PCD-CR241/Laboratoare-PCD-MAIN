@@ -253,8 +253,8 @@ public class FxApp extends Application {
 
         showArray(arr);
 
-        SumEvenNum sum1 = new SumEvenNum(0, SIZE - 1, arr);
-        SumEvenNum sum2 = new SumEvenNum(SIZE - 1, 0, arr);
+        Thread sum1 = new Thread(new SumEvenNum(0, SIZE - 1, arr));
+        Thread sum2 = new Thread(new SumEvenNum(SIZE - 1, 0, arr));
 
         sum1.setName("Unu");
         sum1.start();

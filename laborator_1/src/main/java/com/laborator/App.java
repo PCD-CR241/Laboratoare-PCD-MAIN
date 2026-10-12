@@ -13,8 +13,8 @@ public class App
         }
         System.out.println();
 
-        SumEvenNum sum1 = new SumEvenNum(0, 99, arr);
-        SumEvenNum sum2 = new SumEvenNum(99, 0, arr);
+        Thread sum1 = new Thread(new SumEvenNum(0, 99, arr));
+        Thread sum2 = new Thread(new SumEvenNum(99, 0, arr));
 
         sum1.setName("Unu");
         sum1.start();
@@ -24,7 +24,7 @@ public class App
     }
 }
 
-class SumEvenNum extends Thread {
+class SumEvenNum implements Runnable {
 
     private int from, to, step, i, j;
     private int arr[];
@@ -58,18 +58,19 @@ class SumEvenNum extends Thread {
 
                     num2 = index;
                     int res = num1 + num2;
-                    System.out.println(getName() + ": " + num1 + " + " + num2 + " = " + res);
+                    System.out.println(Thread.currentThread().getName() + ": " + num1 + " + " + num2 + " = " + res);
                 }
 
                 index += step;   
             }
 
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println(getName() + ": Tabelul nu are mai multe elemente");
+            System.out.println(Thread.currentThread().getName() + ": Tabelul nu are mai multe elemente");
         }
         
     }
 
+    @Override
     public void run(){
 
 
