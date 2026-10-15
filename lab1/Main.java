@@ -19,7 +19,7 @@ class Luck extends JFrame{
         mirror.setBackground( Color.decode("#e8e8e8"));
         doc = mirror.getStyledDocument();//get document in care este pastrat textul cu toate atributele
         add(new JScrollPane(mirror));
-        add(mirror);
+
 
     }
     public void write(String arg, String c){
@@ -77,27 +77,31 @@ class Counter1 extends Thread
 {
     private int dela, pana, pas;
     private int[] tablou;
+    private Luck mirror;
+    String clr;
 
-    public Counter1(int dela, int pana, int pas, int[] tablou) {
+    public Counter1(int dela, int pana, int pas, int[] tablou,Luck ui,String clr) {
         this.dela = dela;
         this.pana = pana;
         this.pas = pas;
         this.tablou = tablou;
+        this.clr=clr;
+        mirror=ui;
     }
 
     public void run() {
         int s1 = -1, s2 = -1, s = 0;
         int i = dela;
-        while (i < pana) {
+        while (((i<=dela)&&(i>pana))||((i>=dela)&&(i<pana))) {
             if (tablou[i] % 2 != 0) {
                 s1 = i;
                 i += pas;
-                while (i < pana) {
+                while (i != pana) {
                     if (tablou[i] % 2 != 0) {
                         s2 = i;
                         s = s1 + s2;
-                        System.out.println(
-                                getName() + " " +s1 + " " +s2 + " " +s + " " +tablou[s1] + " " +tablou[s2]);
+                        mirror.write(
+                                getName() + " " +s1 + " " +s2 + " " +s + " " +tablou[s1] + " " +tablou[s2],clr);
                         break;}
                     i += pas;
                 }}
@@ -119,12 +123,14 @@ public class Main {
         }
 
         System.out.println(" ");
-        th1 = new Counter1(0, 99, 1, tablou);
-        th2 = new Counter1(99, 0, -1, tablou);
-        th1.start();
+        th1 = new Counter1(0, 99, 1, tablou,Window,"#0000ff");
+        th2 = new Counter1(99, 0, -1, tablou,Window,"#FF0000");
         th1.setName("Unu");
-        th2.start();
+        th1.start();
+
+
         th2.setName("Doi");
+        th2.start();
 
         Numin wonk1= new Numin("S1","#d40b0b",(byte)0,tablou,Window);
         wonk1.start();
