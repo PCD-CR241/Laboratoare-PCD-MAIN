@@ -17,24 +17,25 @@ class Luck extends JFrame{
         mirror= new JTextPane();
         mirror.setEditable(false);
         mirror.setBackground( Color.decode("#e8e8e8"));
-        doc = mirror.getStyledDocument();
+        doc = mirror.getStyledDocument();//get document in care este pastrat textul cu toate atributele
         add(new JScrollPane(mirror));
         add(mirror);
 
     }
     public void write(String arg, String c){
         SwingUtilities.invokeLater(() -> {
-            SimpleAttributeSet style = new SimpleAttributeSet();
-            StyleConstants.setForeground(style, Color.decode(c));
-
+            SimpleAttributeSet style = new SimpleAttributeSet(); //implimentare a MutableAttributeSet- colectie de atribute
+            StyleConstants.setForeground(style, Color.decode(c));  //atribuirea atributului de foreground la style cu valoare de coloare.decode(c);
+            //StyleConstant- "A collection of well known or common attribute keys and methods to apply to an AttributeSet or MutableAttributeSet to get/set the properties"
+            //adica instrument de atribuire a atributelor pentru element ce implimenteaza MutableAttributeSet
             try {
-                doc.insertString(
+                doc.insertString(  //in doc este pastrat textul, noi inseram text nou care(pozitie-capat vechi,text -mesaj+enter, colectie de atribute a acestui bloc de text)
                         doc.getLength(),
                         arg + "\n",
                         style
                 );
 
-                mirror.setCaretPosition(doc.getLength());
+                mirror.setCaretPosition(doc.getLength());//seteaza indicatorul la end of file
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
