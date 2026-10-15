@@ -61,7 +61,7 @@ public class lab1 {
             String studenti =
                     "\nLucrarea de laborator nr. 1\n"
                             + "Varianta 6\n"
-                            + "Student 1: NUME PRENUME\n"
+                            + "Student 1: CIRNAT ALEXU\n"
                             + "Student 2: NUME PRENUME\n"
                             + "Grupa: CR-241\n";
 
