@@ -87,11 +87,11 @@ class Counter1 extends Thread
     public void run() {
         int s1 = -1, s2 = -1, s = 0;
         int i = dela;
-        while (i != pana) {
+        while (i < pana) {
             if (tablou[i] % 2 != 0) {
                 s1 = i;
                 i += pas;
-                while (i != pana) {
+                while (i < pana) {
                     if (tablou[i] % 2 != 0) {
                         s2 = i;
                         s = s1 + s2;
