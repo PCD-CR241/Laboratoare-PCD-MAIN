@@ -66,6 +66,10 @@ class Numin extends Thread{
                     if(left){p1=i;left=false;}else{p1+=i;center=false;}}else{
                     if(right){p2=i;right=false;}else{
                         p2+=i; s=p1+p2;  mirror.write( getName()+": P1:"+p1+"  P2:"+p2+"  S=P1+P2="+s,clr);
+                        try{ Thread.sleep(100);}
+                        catch(InterruptedException e){
+                            System.out.println("eror");
+                        }
                         center=left=right=true;
                     }};
 
@@ -102,6 +106,10 @@ class Counter1 extends Thread
                         s = s1 + s2;
                         mirror.write(
                                 getName() + " " +s1 + " " +s2 + " " +s + " " +tablou[s1] + " " +tablou[s2],clr);
+                        try{ Thread.sleep(50);}
+                        catch(InterruptedException e){
+                            System.out.println("eror");
+                        }
                         break;}
                     i += pas;
                 }}
@@ -119,6 +127,7 @@ public class Main {
         int[] tablou = new int[101];
         for(int i=0; i<100; i++){
             tablou[i] = (int)(Math.random()*99);
+            if(i%50==0){System.out.println(" ");};
             System.out.print(tablou[i]+" ");
         }
 
