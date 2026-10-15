@@ -1,3 +1,4 @@
+import Macovetchi.MThread;
 import Stecalovici.GuiFrame;
 import Stecalovici.LThread;
 
@@ -25,7 +26,7 @@ public class Main {
                         gui.showArray(LThread.generateArray());
 
                         th1 = new Thread(new LThread(0, +1, gui.getAreaTh1(), gui.getLblTh1()), "Th1");
-                        th2 = new Thread(new LThread(LThread.SIZE - 1, -1, gui.getAreaTh2(), gui.getLblTh2()), "Th2");
+                        th2 = new Thread(new MThread(gui.getAreaTh2(), gui.getLblTh2()), "Th2");
                         th1.start();
                         th2.start();
 
