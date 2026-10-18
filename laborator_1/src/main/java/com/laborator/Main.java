@@ -6,10 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -37,17 +41,33 @@ public class Main extends Application{
         int[] numbers = new int[100];
 
         GridPane gd = new GridPane();
+
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setHgrow(Priority.ALWAYS);
+
+        RowConstraints rc = new RowConstraints();
+        rc.setVgrow(Priority.ALWAYS);
+
         gd.setVgap(2.0);
         gd.setHgap(2.0);
+        gd.getColumnConstraints().addAll(cc,cc,cc,cc,cc,cc,cc,cc,cc,cc);
+        gd.getRowConstraints().addAll(rc,rc,rc,rc,rc,rc,rc,rc,rc,rc);
         gd.getStyleClass().add("number-grid"); //stilul
+
+        Label lb = new Label("Tabloul cu elemente generate aleatoriu");
 
         AnchorPane an1 = new AnchorPane();
 
-        AnchorPane.setTopAnchor(gd,  10.0);
+        AnchorPane.setTopAnchor(gd,  20.0);
         AnchorPane.setRightAnchor(gd,  10.0);
         AnchorPane.setBottomAnchor(gd,  10.0);
         AnchorPane.setLeftAnchor(gd,  10.0);
 
+        AnchorPane.setTopAnchor(lb, 2.0);
+        AnchorPane.setRightAnchor(lb, 40.0);
+        AnchorPane.setLeftAnchor(lb, 40.0);
+
+        an1.getChildren().add(lb);
         an1.getChildren().add(gd);
 
         //Codul pentru laborator
@@ -79,17 +99,23 @@ public class Main extends Application{
         sum2.setName("Doi");
         sum2.start();
 
-        //|||||||||||||||||||||||
+        //Sfarsitul codului
 
         ListView<String> view = new ListView<String>(SumEvenNum.getList());
         
+        Label lb2 = new Label("Rezultatul programului");
         AnchorPane an2 = new AnchorPane();
 
-        AnchorPane.setTopAnchor(view,  10.0);
+        AnchorPane.setTopAnchor(view,  20.0);
         AnchorPane.setRightAnchor(view,  10.0);
         AnchorPane.setBottomAnchor(view,  10.0);
         AnchorPane.setLeftAnchor(view,  10.0);
+        
+        AnchorPane.setTopAnchor(lb2, 2.0);
+        AnchorPane.setRightAnchor(lb2, 40.0);
+        AnchorPane.setLeftAnchor(lb2, 40.0);
 
+        an2.getChildren().add(lb2);
         an2.getChildren().add(view);
   
         sp.getItems().addAll(an1,an2);
