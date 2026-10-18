@@ -1,0 +1,60 @@
+
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f4f5f7;
+}
+
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.split-pane > .split-pane-divider {
+    -fx-background-color: #d0d4da;
+    -fx-padding: 0 2 0 2;
+}
+
+
+.number-grid {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+.number-grid .button {
+    -fx-pref-width: 60px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 6;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.number-grid .button.even {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+}
+.number-grid .button.odd {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #555;
+}
+.number-grid .button:hover {
+    -fx-opacity: 0.8;
+}
+
+
+.log-list {
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d4da;
+    -fx-border-radius: 8;
+}
+.log-list .list-cell {
+    -fx-font-family: "Consolas", monospace;
+    -fx-padding: 6 10 6 10;
+}
+.log-list .list-cell.unu {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #0d47a1;
+}
+.log-list .list-cell.doi {
+    -fx-background-color: #fff3e0;
+    -fx-text-fill: #e65100;
+}
