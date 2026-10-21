@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 /**
  * Lucrare de laborator 1 - Crearea thread-urilor
  * Conditia 1: suma numerelor impare doua cate doua, de la primul element.
- * Conditia 2: suma numerelor impare doua cate doua, de la ultimul element.
- * Toate cele 4 fire folosesc acelasi tablou mas[] si scriu in ACEEASI fereastra.
+ * Conditia 2: suma numerelor impare doua cate doua, de la ultimul element
+ * Toate cele 4 fire folosesc acelasi tablou mas[] si scriu in ACEEASI fereastra
  */
 
 // ---------- Firul de executie ----------
