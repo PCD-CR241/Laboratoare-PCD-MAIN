@@ -1,14 +1,11 @@
 package Stecalovici;
 
-/**
- * Firul de executie: parcurge mas[] (de la primul sau de la ultimul element),
- * grupeaza elementele impare in perechi si aduna produsele lor.
- */
+
 public class LThread implements Runnable {
 
         public static final int SIZE = 100;
 
-        public static final int[] mas = new int[SIZE];
+        public int[] tablou = new int[SIZE];
 
         private final int start;
         private final int step;
@@ -17,21 +14,13 @@ public class LThread implements Runnable {
         private long total = 0;
         private int pairs = 0;
 
-        public LThread(int start, int step, GuiFrame gui) {
+        public LThread(int start, int step, GuiFrame gui, int[] tablou) {
                 this.start = start;
                 this.step = step;
                 this.gui = gui;
+                this.tablou = tablou;
         }
 
-        // Umple mas[] cu valori aleatorii 1..100 si intoarce textul pentru afisare
-        public static String generateArray() {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < SIZE; i++) {
-                        mas[i] = (int) (Math.random() * 100) + 1;
-                        sb.append(mas[i]).append(' ');
-                }
-                return sb.toString();
-        }
 
         @Override
         public void run() {
@@ -39,15 +28,15 @@ public class LThread implements Runnable {
                 int pendingIdx = -1; // primul impar al perechii curente
 
                 for (int i = start; i >= 0 && i < SIZE; i += step) {
-                        if (mas[i] % 2 != 0) {
+                        if (tablou[i] % 2 != 0) {
                                 if (pendingIdx == -1) {
                                         pendingIdx = i;
                                 } else {
-                                        long prod = (long) mas[pendingIdx] * mas[i];
+                                        long prod = (long) tablou[pendingIdx] * tablou[i];
                                         total += prod;
                                         pairs++;
                                         String line = String.format("%s: %d * %d = %d | suma = %d%n",
-                                                name, mas[pendingIdx], mas[i], prod, total);
+                                                name, tablou[pendingIdx], tablou[i], prod, total);
                                         gui.append(line);
                                         pendingIdx = -1;
                                 }

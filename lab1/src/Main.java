@@ -1,3 +1,4 @@
+import Macovetchi.Shared;
 import Macovetchi.MThread;
 import Stecalovici.GuiFrame;
 import Stecalovici.LThread;
@@ -10,54 +11,45 @@ public class Main {
                 + "Student 2: Macovetchi Bogdan, grupa CR-241\n";
 
         private final GuiFrame gui = new GuiFrame();
-        private volatile Thread th1, th2;
-        private volatile Thread runner;
-
+        private  Thread th1, th2, th3, th4;
+        private static final int SIZE = 100;
         public static void main(String[] args) throws Exception {
                 Main lab = new Main();
 
-                lab.gui.build(lab::reset);
+                lab.gui.build();
                 lab.runAll();
         }
 
         public void runAll() {
-                runner = Thread.currentThread();
+//                runner = Thread.currentThread();
                 try {
-                        gui.showArray(LThread.generateArray());
+                        gui.showArray(Shared.tablou);
 
-                        th1 = new Thread(new LThread(0, +1, gui), "Th1");
-                        th2 = new Thread(new MThread(gui), "Th2");
+                        // Th1, Th2 - LThread (Stecalovici); Th3, Th4 - MThread (Macovetchi)
+                        th1 = new Thread(new LThread(0, +1, gui,Shared.tablou), "Th1");
+                        th2 = new Thread(new LThread(SIZE - 1, -1, gui,Shared.tablou), "Th2");
+                        th3 = new Thread(new MThread(gui,0,+1, Shared.tablou), "Th3");
+                        th4 = new Thread(new MThread(gui, SIZE-1, -1,Shared.tablou), "Th4");
                         th1.start();
                         th2.start();
+                        th3.start();
+                        th4.start();
+                        th1.join();
+                        th2.join();
+                        th3.join();
+                        th4.join();
 
                         for (char c : INFO.toCharArray()) {
                                 gui.append(String.valueOf(c));
                                 Thread.sleep(100);
                         }
                 } catch (InterruptedException e) {
+                        e.printStackTrace();
                 }
         }
 
-        private void reset() {
-                gui.setResetEnabled(false);
-                new Thread(() -> {
-                        stopAndJoin(runner);
-                        stopAndJoin(th1);
-                        stopAndJoin(th2);
-                        runner = Thread.currentThread();
 
-                        gui.clear();
-                        runAll();
-                }, "Main-reset").start();
-        }
 
-        private static void stopAndJoin(Thread t) {
-                if (t == null) return;
-                t.interrupt();
-                try {
-                        t.join();
-                } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                }
-        }
+
 }
+
