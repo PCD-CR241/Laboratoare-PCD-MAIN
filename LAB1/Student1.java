@@ -40,8 +40,8 @@ class ProdusePareThread extends Thread {
 
     public void run() {
         int i = start;
-        int primul = -1;          // primul numar par din pereche; -1 inseamna "inca nu l-am gasit"
-        long sumaProduselor = 0;  // aici adunam produsele tuturor perechilor
+        int primul = -1;
+        long sumaProduselor = 0;
 
         while (i >= 0 && i < mas.length) {
             if (mas[i] % 2 == 0) {
@@ -51,8 +51,8 @@ class ProdusePareThread extends Thread {
                     int produs = primul * mas[i];
                     sumaProduselor = sumaProduselor + produs;
                     afisaj.afiseaza(getName(), primul + " * " + mas[i] + " = " + produs
-                            + "   (suma: " + sumaProduselor + ")");
-                    primul = -1;   // perechea e gata, cautam una noua
+                            + "   (SUMA: " + sumaProduselor + ")");
+                    primul = -1;
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
