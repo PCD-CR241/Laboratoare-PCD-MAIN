@@ -56,7 +56,7 @@ class ProdusePareThread extends Thread {
                     } catch (InterruptedException e) {
                         afisaj.afiseaza(getName(), "a fost intrerupt");
                     }
-                }
+                }//comentariu de test commit schimbari etc etc etc
             }
             i = i + pas;
         }
