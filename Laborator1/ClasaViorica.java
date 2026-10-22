@@ -17,16 +17,16 @@ public class ClasaViorica {
         for (int i = 0; i < mas.length; i++) {
             if (mas[i] % 2 == 0) {
                 if (primulPar == null) {
-                    primulPar = mas[i]; // Salveaza primul numar par gasit
+                    primulPar = mas[i]; 
                 } else {
-                    int suma = primulPar + mas[i]; // Adunarea a doua cate doua
+                    int suma = primulPar + mas[i]; 
                     String text = "[Viorica-Th1] Pereche gasita: " + primulPar + " + " + mas[i] + " = " + suma + "\n";
                     
                     SwingUtilities.invokeLater(() -> zonaText.append(text));
-                    primulPar = null; // Reset pentru urmatoarea pereche
+                    primulPar = null; 
 
                     try {
-                        Thread.sleep(40); // Scurta pauza pentru efectul vizual in paralel
+                        Thread.sleep(40);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -48,7 +48,7 @@ public class ClasaViorica {
                     String text = "[Viorica-Th2] Pereche gasita: " + primulPar + " + " + mas[i] + " = " + suma + "\n";
                     
                     SwingUtilities.invokeLater(() -> zonaText.append(text));
-                    primulPar = null; // Reset pentru urmatoarea pereche
+                    primulPar = null; 
 
                     try {
                         Thread.sleep(40);
