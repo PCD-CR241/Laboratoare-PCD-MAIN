@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        int[] mas = new int [100];
+        int[] mas = new int[100];
         Random rand = new Random();
         for (int i = 0; i < mas.length; i++) {
             mas[i] = rand.nextInt(100) + 1;
@@ -25,32 +25,51 @@ public class Main {
         fereastra.add(scroll, BorderLayout.CENTER);
         fereastra.setVisible(true);
 
-        zonaTextComuna.append(" START EXECUTIE FIRE \n\n");
+        zonaTextComuna.append("START EXECUTIE FIRE\n\n");
 
-        ClasaAxenia axenia = new ClasaAxenia(mas, zonaTextComuna);
-        Thread tAxenia1 = new Thread(axenia::executaTh1);
-        Thread tAxenia2 = new Thread(axenia::executaTh2);
-        tAxenia1.start(); tAxenia2.start();
+        Thread tAxenia1 = new Thread(new ClasaAxenia(mas, true, "Axenia-Th1", zonaTextComuna));
+        Thread tAxenia2 = new Thread(new ClasaAxenia(mas, false, "Axenia-Th2", zonaTextComuna));
 
-        ClasaViorica tViorica1 = new ClasaViorica(
-                mas, zonaTextComuna, 0, 1,
-                "[Viorica-Th1]", "Incepe cautarea de la inceput...");
-        ClasaViorica tViorica2 = new ClasaViorica(
-                mas, zonaTextComuna, mas.length - 1, -1,
-                "[Viorica-Th2]", "Incepe cautarea de la sfarsit...");
-        tViorica1.start();
-        tViorica2.start();
+        tAxenia1.start();
+        tAxenia2.start();
+
+        Thread tViorica1 = null;
+        Thread tViorica2 = null;
+        try {
+            Class<?> clasaVio = Class.forName("ClasaViorica");
+
+            java.lang.reflect.Constructor<?> constructorVio = clasaVio.getConstructor(
+                    int[].class, JTextArea.class, int.class, int.class, String.class, String.class
+            );
+
+
+            Object vioInstance1 = constructorVio.newInstance(mas, zonaTextComuna, 0, 1, "Viorica-Th1", "Incepe cautarea de la inceput...");
+            Object vioInstance2 = constructorVio.newInstance(mas, zonaTextComuna, 99, -1, "Viorica-Th2", "Incepe cautarea de la sfarsit...");
+
+            tViorica1 = (Thread) vioInstance1;
+            tViorica2 = (Thread) vioInstance2;
+
+            tViorica1.start();
+            tViorica2.start();
+        } catch (ClassNotFoundException e) {
+            System.out.println("[Sistem] ClasaViorica nu a fost gasita inca. Ruleaza doar Axenia.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
-            tAxenia1.join(); tAxenia2.join();
+            tAxenia1.join();
+            tAxenia2.join();
             if (tViorica1 != null) tViorica1.join();
             if (tViorica2 != null) tViorica2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        String textFinal = "\n\n TOATE FIRELE AU FINISAT \nLucrarea a fost efectuata de studentele: Agachi si Timbal.";
+        String textFinal = "\n\nTOATE FIRELE AU FINISAT \nLucrarea a fost efectuata de studentele: Agachi si Timbal.";
         for (char litera : textFinal.toCharArray()) {
+            System.out.print(litera);
+            System.out.flush();
             SwingUtilities.invokeLater(() -> zonaTextComuna.append(String.valueOf(litera)));
             try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
         }
