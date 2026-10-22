@@ -51,7 +51,7 @@ class ProdusePareThread extends Thread {
                     int produs = primul * mas[i];
                     sumaProduselor = sumaProduselor + produs;
                     afisaj.afiseaza(getName(), primul + " * " + mas[i] + " = " + produs
-                            + "   (SUMA:  " + sumaProduselor + ")");
+                            + " (SUMA: " + sumaProduselor + ")");
                     primul = -1;
                     try {
                         Thread.sleep(100);
