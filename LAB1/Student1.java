@@ -22,7 +22,6 @@ public class Student1 {
         th2.join();
     }
 }
-
 class ProdusePareThread extends Thread {
 
     private int[] mas;
@@ -37,7 +36,6 @@ class ProdusePareThread extends Thread {
         this.pas = pas;
         this.afisaj = afisaj;
     }
-
     public void run() {
         int i = start;
         int primul = -1;
@@ -51,7 +49,7 @@ class ProdusePareThread extends Thread {
                     int produs = primul * mas[i];
                     sumaProduselor = sumaProduselor + produs;
                     afisaj.afiseaza(getName(), primul + " * " + mas[i] + " = " + produs
-                            + " (SUMA: " + sumaProduselor + ")");
+                            + " ( SUMA: " + sumaProduselor + ")");
                     primul = -1;
                     try {
                         Thread.sleep(100);
