@@ -60,7 +60,7 @@ class CautarePare implements Runnable {
             int b = pare.get(k + 1);
             int produs = a * b;
             sumaProduselor += produs;
-            afisaj.afiseaza(nume, a + " * " + b + " = " + produs + "   (suma: " + sumaProduselor + ")");
+            afisaj.afiseaza(nume, a + " * " + b + " = " + produs + "   (SUMA: " + sumaProduselor + ")");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
