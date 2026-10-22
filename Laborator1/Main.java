@@ -25,32 +25,21 @@ public class Main {
         fereastra.add(scroll, BorderLayout.CENTER);
         fereastra.setVisible(true);
 
-        zonaTextComuna.append("=== START EXECUTIE FIRE ===\n\n");
+        zonaTextComuna.append(" START EXECUTIE FIRE \n\n");
 
         ClasaAxenia axenia = new ClasaAxenia(mas, zonaTextComuna);
         Thread tAxenia1 = new Thread(axenia::executaTh1);
         Thread tAxenia2 = new Thread(axenia::executaTh2);
         tAxenia1.start(); tAxenia2.start();
 
-        Thread tViorica1 = null;
-        Thread tViorica2 = null;
-        try {
-            Class<?> clasaVio = Class.forName("ClasaViorica");
-            Object vioricaInstance = clasaVio.getConstructor(int[].class, JTextArea.class).newInstance(mas, zonaTextComuna);
-
-            tViorica1 = new Thread(() -> {
-                try { clasaVio.getMethod("executaTh1").invoke(vioricaInstance); } catch (Exception e) {}
-            });
-            tViorica2 = new Thread(() -> {
-                try { clasaVio.getMethod("executaTh2").invoke(vioricaInstance); } catch (Exception e) {}
-            });
-
-            tViorica1.start(); tViorica2.start();
-        } catch (ClassNotFoundException e) {
-            System.out.println("[Sistem] ClasaViorica nu a fost gasita inca. Ruleaza doar Axenia.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ClasaViorica tViorica1 = new ClasaViorica(
+                mas, zonaTextComuna, 0, 1,
+                "[Viorica-Th1]", "Incepe cautarea de la inceput...");
+        ClasaViorica tViorica2 = new ClasaViorica(
+                mas, zonaTextComuna, mas.length - 1, -1,
+                "[Viorica-Th2]", "Incepe cautarea de la sfarsit...");
+        tViorica1.start();
+        tViorica2.start();
 
         try {
             tAxenia1.join(); tAxenia2.join();
@@ -60,7 +49,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        String textFinal = "\n\n=== TOATE FIRELE AU FINISAT ===\nLucrarea a fost efectuata de studentele: Agachi si Timbal.";
+        String textFinal = "\n\n TOATE FIRELE AU FINISAT \nLucrarea a fost efectuata de studentele: Agachi si Timbal.";
         for (char litera : textFinal.toCharArray()) {
             SwingUtilities.invokeLater(() -> zonaTextComuna.append(String.valueOf(litera)));
             try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
