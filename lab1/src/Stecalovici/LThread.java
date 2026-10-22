@@ -5,42 +5,51 @@ public class LThread implements Runnable {
 
         public static final int SIZE = 100;
 
-        public int[] tablou = new int[SIZE];
+        private final int[] vector;
 
-        private final int start;
-        private final int step;
+        private final int pozInceput;
+        private final int directie;
         private final GuiFrame gui;
 
-        private long total = 0;
-        private int pairs = 0;
+        private long sumaProduse = 0;
+        private int nrPerechi = 0;
 
         public LThread(int start, int step, GuiFrame gui, int[] tablou) {
-                this.start = start;
-                this.step = step;
+                this.pozInceput = start;
+                this.directie = step;
                 this.gui = gui;
-                this.tablou = tablou;
+                this.vector = tablou;
         }
 
 
         @Override
         public void run() {
-                String name = Thread.currentThread().getName();
-                int pendingIdx = -1; // primul impar al perechii curente
+                String numeFir = Thread.currentThread().getName();
+                int contorImpare = 0;   // cate numere impare au fost intalnite
+                int valoareAnterioara = 0; // impar ramas fara pereche
 
-                for (int i = start; i >= 0 && i < SIZE; i += step) {
-                        if (tablou[i] % 2 != 0) {
-                                if (pendingIdx == -1) {
-                                        pendingIdx = i;
+                int pozitie = pozInceput;
+                int ramase = (directie > 0) ? SIZE - pozInceput : pozInceput + 1;
+
+                while (ramase-- > 0) {
+                        int curent = vector[pozitie];
+
+                        // impar <=> ultimul bit este 1
+                        if ((curent & 1) == 1) {
+                                contorImpare++;
+                                if (contorImpare % 2 == 0) {
+                                        long produs = (long) valoareAnterioara * curent;
+                                        sumaProduse += produs;
+                                        nrPerechi++;
+                                        gui.append(String.format("%s: %d * %d = %d | suma = %d%n",
+                                                numeFir, valoareAnterioara, curent, produs, sumaProduse));
                                 } else {
-                                        long prod = (long) tablou[pendingIdx] * tablou[i];
-                                        total += prod;
-                                        pairs++;
-                                        String line = String.format("%s: %d * %d = %d | suma = %d%n",
-                                                name, tablou[pendingIdx], tablou[i], prod, total);
-                                        gui.append(line);
-                                        pendingIdx = -1;
+                                        valoareAnterioara = curent;
                                 }
                         }
+
+                        pozitie += directie;
+
                         try {
                                 Thread.sleep(20);
                         } catch (InterruptedException e) {
@@ -49,8 +58,7 @@ public class LThread implements Runnable {
                         }
                 }
 
-                String fin = String.format("%s: perechi = %d, suma produselor = %d%n",
-                        name, pairs, total);
-                gui.append(fin);
+                gui.append(String.format("%s: perechi = %d, suma produselor = %d%n",
+                        numeFir, nrPerechi, sumaProduse));
         }
 }
