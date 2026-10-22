@@ -37,17 +37,17 @@ public class Main {
         Thread tViorica2 = null;
         try {
             Class<?> clasaVio = Class.forName("ClasaViorica");
-
-            java.lang.reflect.Constructor<?> constructorVio = clasaVio.getConstructor(
+            java.lang.reflect.Constructor<?> constructorVio =
+                    clasaVio.getConstructor(
                     int[].class, JTextArea.class, int.class, int.class, String.class, String.class
             );
 
-
-            Object vioInstance1 = constructorVio.newInstance(mas, zonaTextComuna, 0, 1, "Viorica-Th1", "Incepe cautarea de la inceput...");
-            Object vioInstance2 = constructorVio.newInstance(mas, zonaTextComuna, 99, -1, "Viorica-Th2", "Incepe cautarea de la sfarsit...");
-
-            tViorica1 = (Thread) vioInstance1;
-            tViorica2 = (Thread) vioInstance2;
+            tViorica1 = (Thread) constructorVio.newInstance(
+                    mas, zonaTextComuna, 0, 1,
+                    "Viorica-Th1", "Incepe cautarea de la inceput...");
+            tViorica2 = (Thread) constructorVio.newInstance(
+                    mas, zonaTextComuna, mas.length - 1, -1,
+                    "Viorica-Th2", "Incepe cautarea de la sfarsit...");
 
             tViorica1.start();
             tViorica2.start();
