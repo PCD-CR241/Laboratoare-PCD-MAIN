@@ -7,7 +7,7 @@ public class Student2 {
     private Thread th2;
 
     public Student2(int[] mas, Afisaj afisaj) {
-        th1 = new Thread(new CautarePare(mas, true, afisaj), "Artiom-Th1");    // de la primul element
+        th1 = new Thread(new CautarePare(mas, true, afisaj), "Artiom--Th1");    // de la primul element
         th2 = new Thread(new CautarePare(mas, false, afisaj), "Artiom-Th2");   // de la ultimul element
     }
 
