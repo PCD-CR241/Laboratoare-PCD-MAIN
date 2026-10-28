@@ -1,44 +1,30 @@
-public class Pislari implements Runnable {
+public class Pislari extends Thread {
+    int[] v;
+    boolean invers;
 
-    private int[] mas;   
-    private int start;   
-    private int step;    
-
-    public Pislari(int[] mas, int start, int step) {
-        this.mas = mas;
-        this.start = start;
-        this.step = step;
+    public Pislari(String nume, int[] v, boolean invers) {
+        super(nume);
+        this.v = v;
+        this.invers = invers;
     }
-
-    @Override
+@Override
     public void run() {
-        String nume = Thread.currentThread().getName();
-        int[] poz = new int[4];   
-        int k = 0;                
-
-        for (int i = start; i >= 0 && i < mas.length; i += step) {
-            if (i % 2 == 0) {                 
-                poz[k] = i;
-                k++;
-
-                if (k == 4) {                 
-                    int p1 = mas[poz[0]] * mas[poz[1]];
-                    int p2 = mas[poz[2]] * mas[poz[3]];
-                    int dif = p1 - p2;
-
-                    System.out.println(nume + ": (" + mas[poz[0]] + "*" + mas[poz[1]] + ") - ("
-                            + mas[poz[2]] + "*" + mas[poz[3]] + ") = "
-                            + p1 + " - " + p2 + " = " + dif
-                            + "   poz: " + poz[0] + "," + poz[1] + "," + poz[2] + "," + poz[3]);
-
-                    k = 0;                    
-                    try {
-                        Thread.sleep(20);     
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            }
+        int i = 0, pas = 2;
+        if (invers) {
+            i = v.length - 1;
+            if (i % 2 == 1) i--;   // ultima pozitie para
+            pas = -2;
+        }
+        while (i + 3 * pas >= 0 && i + 3 * pas < v.length) {
+            int a = i, b = i + pas, c = i + 2 * pas, d = i + 3 * pas;
+            int p1 = v[a] * v[b];
+            int p2 = v[c] * v[d];
+            System.out.println(getName() + ": (" + v[a] + "*" + v[b] + ") - (" + v[c] + "*" + v[d] + ") = "
+                    + p1 + " - " + p2 + " = " + (p1 - p2) + "   poz: " + a + "," + b + "," + c + "," + d);
+            i += 4 * pas;
+            try { 
+                Thread.sleep(20); 
+            } catch (InterruptedException e) { return; }
         }
     }
 }

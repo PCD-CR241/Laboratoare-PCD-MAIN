@@ -1,6 +1,5 @@
 public class Main {
-
-    public static void main(String[] args) throws InterruptedException {
+public static void main(String[] args) throws InterruptedException {
 
         int[] mas = new int[100];
         for (int i = 0; i < mas.length; i++) {
@@ -12,10 +11,9 @@ public class Main {
         }
         System.out.println();
 
-        Thread th1 = new Thread(new Pislari(mas, 0, 1), "Th1 Pislari");
-        Thread th2 = new Thread(new Pislari(mas, mas.length - 1, -1), "Th2 Pislari");
+        Pislari th1 = new Pislari("Th1 Pislari", mas, false);
+        Pislari th2 = new Pislari("Th2 Pislari", mas, true);
 
-        // 3. Firele colegei - le activezi cand primesti clasa ei
         // Thread th3 = new Thread(new NumeColega(mas, ...), "Th1 Colega");
         // Thread th4 = new Thread(new NumeColega(mas, ...), "Th2 Colega");
 
@@ -34,7 +32,7 @@ public class Main {
         String info = "Lucrarea nr. 1 a fost realizata de: Pislari Andreea si <Nume Prenume colega>, grupa <Grupa>";
         for (int i = 0; i < info.length(); i++) {
             System.out.print(info.charAt(i));
-            Thread.sleep(100);
+           Thread.sleep(100); 
         }
         System.out.println();
     }
