@@ -14,25 +14,24 @@ public static void main(String[] args) throws InterruptedException {
         Pislari th1 = new Pislari("Th1 Pislari", mas, false);
         Pislari th2 = new Pislari("Th2 Pislari", mas, true);
 
-        // Thread th3 = new Thread(new NumeColega(mas, ...), "Th1 Colega");
-        // Thread th4 = new Thread(new NumeColega(mas, ...), "Th2 Colega");
+        Thread th3 = new Thread(new Volcovschi(mas, true), "Th1 Volcovschi");
+        Thread th4 = new Thread(new Volcovschi(mas, false), "Th2 Volcovschi");
 
-        
         th1.start();
         th2.start();
-        // th3.start();
-        // th4.start();
+        th3.start();
+        th4.start();
 
         th1.join();
         th2.join();
-        // th3.join();
-        // th4.join();
+        th3.join();
+        th4.join();
 
         System.out.println();
-        String info = "Lucrarea nr. 1 a fost realizata de: Pislari Andreea si <Nume Prenume colega>, grupa <Grupa>";
+        String info = "Lucrarea nr. 1 a fost realizata de: Pislari Andreea si Volcovschi Laura, grupa CR-241";
         for (int i = 0; i < info.length(); i++) {
             System.out.print(info.charAt(i));
-           Thread.sleep(100); 
+            Thread.sleep(100);
         }
         System.out.println();
     }
