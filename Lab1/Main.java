@@ -15,23 +15,23 @@ public class Main {
         Thread th1 = new Thread(new Pislari(mas, 0, 1), "Th1 Pislari");
         Thread th2 = new Thread(new Pislari(mas, mas.length - 1, -1), "Th2 Pislari");
 
-        // 3. Firele colegei - le activezi cand primesti clasa ei
-        // Thread th3 = new Thread(new NumeColega(mas, ...), "Th1 Colega");
-        // Thread th4 = new Thread(new NumeColega(mas, ...), "Th2 Colega");
+        // 3. Firele colegei
+        Thread th3 = new Thread(new Volcovschi(mas, true), "Th1 Volcovschi");
+        Thread th4 = new Thread(new Volcovschi(mas, false), "Th2 Volcovschi");
 
         
         th1.start();
         th2.start();
-        // th3.start();
-        // th4.start();
+        th3.start();
+        th4.start();
 
         th1.join();
         th2.join();
-        // th3.join();
-        // th4.join();
+        th3.join();
+        th4.join();
 
         System.out.println();
-        String info = "Lucrarea nr. 1 a fost realizata de: Pislari Andreea si <Nume Prenume colega>, grupa <Grupa>";
+        String info = "Lucrarea nr. 1 a fost realizata de: Pislari Andreea si Volcovschi Laura, grupa CR-241";
         for (int i = 0; i < info.length(); i++) {
             System.out.print(info.charAt(i));
             Thread.sleep(100);
