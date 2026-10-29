@@ -94,10 +94,21 @@ public class Main extends Application{
         Thread sum1 = new Thread(new SumEvenNum(0, 99, numbers));
         Thread sum2 = new Thread(new SumEvenNum(99, 0, numbers));
 
+        Thread hello = new Thread(new HelloMir(0, 99, numbers));
+        Thread hello2 = new Thread(new HelloMir(99, 0, numbers));
+
+
         sum1.setName("Unu");
         sum1.start();
         sum2.setName("Doi");
         sum2.start();
+
+hello.setName("Hello");
+hello.start();
+hello2.setName("Hello2");
+hello2.start();
+
+
 
         //Sfarsitul codului
 
@@ -240,18 +251,87 @@ class SumEvenNum implements Runnable {
     }
 }
 
-class HelloMir implements Runnable{
+class HelloMir implements Runnable {
 
-    private static ObservableList<String> threadList = FXCollections.observableArrayList();
+    private int from, to, step;
+    private int[] arr;
 
-    @Override 
-    public void run(){
+    private static ObservableList<String> threadList =
+            FXCollections.observableArrayList();
 
-        System.out.println("Hello");
+    public HelloMir(int from, int to, int[] arr) {
+        this.from = from;
+        this.to = to;
+        this.arr = arr;
     }
 
-    public static ObservableList<String> getList(){
+    @Override
+    public void run() {
 
+        try {
+
+            int firstPos = -1;
+
+            if (from < to) {
+
+                for (int i = from; i <= to; i++) {
+
+                    if (arr[i] % 2 == 0) {
+
+                        if (firstPos == -1) {
+                            firstPos = i;
+                        } else {
+
+                            int suma = firstPos + i;
+
+                            String rezultat =
+                                    Thread.currentThread().getName()
+                                    + ": " + firstPos
+                                    + " + " + i
+                                    + " = " + suma;
+
+                            System.out.println(rezultat);
+                            threadList.add(rezultat);
+
+                            firstPos = -1;
+                        }
+                    }
+                }
+
+            } else {
+
+                for (int i = from; i >= to; i--) {
+
+                    if (arr[i] % 2 == 0) {
+
+                        if (firstPos == -1) {
+                            firstPos = i;
+                        } else {
+
+                            int suma = firstPos + i;
+
+                            String rezultat =
+                                    Thread.currentThread().getName()
+                                    + ": " + firstPos
+                                    + " + " + i
+                                    + " = " + suma;
+
+                            System.out.println(rezultat);
+                            threadList.add(rezultat);
+
+                            firstPos = -1;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            threadList.add(Thread.currentThread().getName()
+                    + ": Eroare la procesare");
+        }
+    }
+
+    public static ObservableList<String> getList() {
         return threadList;
     }
 }
