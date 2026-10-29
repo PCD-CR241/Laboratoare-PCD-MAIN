@@ -14,8 +14,8 @@ public static void main(String[] args) throws InterruptedException {
         Pislari th1 = new Pislari("Th1 Pislari", mas, false);
         Pislari th2 = new Pislari("Th2 Pislari", mas, true);
 
-        Thread th3 = new Thread(new Volcovschi(mas, true), "Th1 Volcovschi");
-        Thread th4 = new Thread(new Volcovschi(mas, false), "Th2 Volcovschi");
+        Thread th3 = new Thread(new Volcovschi(mas, true), "Th3 Volcovschi");
+        Thread th4 = new Thread(new Volcovschi(mas, false), "Th4 Volcovschi");
 
         th1.start();
         th2.start();
