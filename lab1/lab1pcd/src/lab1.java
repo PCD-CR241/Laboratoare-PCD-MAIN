@@ -1,136 +1,115 @@
-import java.util.Arrays;
+
 import java.util.Random;
 
-// Alexandru: colecteaza cate 4 elemente, apoi calculeaza P1 + P2.
-class Conditia1 implements Runnable {
+class Th1 implements Runnable {
     private final int[] mas;
-    private final int from, to, step;
 
-    public Conditia1(int[] mas, int from, int to, int step) {
+    public Th1(int[] mas) {
         this.mas = mas;
-        this.from = from;
-        this.to = to;
-        this.step = step;
     }
 
     @Override
     public void run() {
-        String nume = Thread.currentThread().getName();
+        int suma = 0;
 
-        int[] valori = new int[4];
-        int k = 0;
+        for (int i = 0; i + 3 < mas.length; i += 4) {
+            int p1 = mas[i] * mas[i + 1];
+            int p2 = mas[i + 2] * mas[i + 3];
 
-        for (int i = from; i != to + step; i += step) {
-            // Pozitii impare: 1, 3, 5...
-            if ((i + 1) % 2 != 0) {
-                valori[k] = mas[i];
-                k++;
+            suma += p1 + p2;
 
-                if (k == 4) {
-                    int p1 = valori[0] * valori[1];
-                    int p2 = valori[2] * valori[3];
-                    int s = p1 + p2;
-
-                    Afisare.scrie(true,
-                            nume
-                                    + ": (" + valori[0] + "*" + valori[1]
-                                    + ") + (" + valori[2] + "*" + valori[3]
-                                    + ") | P1=" + p1
-                                    + "  P2=" + p2
-                                    + "  S=P1+P2=" + s
-                    );
-
-                    k = 0;
-                }
-            }
+            System.out.printf(
+                    "Th1: [%d,%d] P1=%d; [%d,%d] P2=%d; Suma=%d%n",
+                    i, i + 1, p1, i + 2, i + 3, p2, p1 + p2
+            );
         }
+
+        System.out.println("Th1: Suma totala = " + suma);
     }
 }
 
-// Vitalie: formeaza produsele pe rand, fara un tablou auxiliar.
-class Conditia2 implements Runnable {
+class Th2 implements Runnable {
     private final int[] mas;
-    private final int from, to, step;
 
-    public Conditia2(int[] mas, int from, int to, int step) {
+    public Th2(int[] mas) {
         this.mas = mas;
-        this.from = from;
-        this.to = to;
-        this.step = step;
     }
 
     @Override
     public void run() {
-        String nume = Thread.currentThread().getName();
+        int diferentaTotala = 0;
 
-        int primulNumar = 0;
-        int p1 = 0;
+        for (int i = 0; i + 3 < mas.length; i += 4) {
+            int p1 = mas[i] * mas[i + 1];
+            int p2 = mas[i + 2] * mas[i + 3];
 
-        boolean avemNumar = false;
-        boolean avemProdus = false;
+            diferentaTotala += p1 - p2;
 
-        for (int i = from; i != to + step; i += step) {
-            // Ignoram pozitiile pare.
-            if ((i + 1) % 2 == 0) {
-                continue;
-            }
-
-            if (!avemNumar) {
-                primulNumar = mas[i];
-                avemNumar = true;
-            } else {
-                int produs = primulNumar * mas[i];
-                avemNumar = false;
-
-                if (!avemProdus) {
-                    // Memoram primul produs.
-                    p1 = produs;
-                    avemProdus = true;
-                } else {
-                    // Adunam primul produs cu al doilea.
-                    int p2 = produs;
-                    int s = p1 + p2;
-
-                    Afisare.scrie(false,
-                            nume
-                                    + ": P1=" + p1
-                                    + "  P2=" + p2
-                                    + "  S=P1+P2=" + s
-                    );
-
-                    avemProdus = false;
-                }
-            }
+            System.out.printf(
+                    "Th2: P1=%d; P2=%d; Diferenta=%d%n",
+                    p1, p2, p1 - p2
+            );
         }
+
+        System.out.println(
+                "Th2: Diferenta totala = " + diferentaTotala
+        );
     }
 }
 
-// Alternare Alexandru -> Vitalie, fara semafor.
-// Fiecare student afiseaza 12 rezultate.
-class Afisare {
-    private static boolean randulLuiAlexandru = true;
+class Th3 implements Runnable {
+    private final int[] mas;
 
-    public static synchronized void scrie(
-            boolean esteAlexandru, String mesaj) {
+    public Th3(int[] mas) {
+        this.mas = mas;
+    }
 
-        boolean intrerupt = false;
+    @Override
+    public void run() {
+        int suma = 0;
 
-        while (randulLuiAlexandru != esteAlexandru) {
-            try {
-                Afisare.class.wait();
-            } catch (InterruptedException e) {
-                intrerupt = true;
-            }
+        for (int i = 1; i + 3 < mas.length; i += 4) {
+            int p1 = mas[i] * mas[i + 1];
+            int p2 = mas[i + 2] * mas[i + 3];
+
+            suma += p1 + p2;
+
+            System.out.printf(
+                    "Th3: P1=%d; P2=%d; Suma=%d%n",
+                    p1, p2, p1 + p2
+            );
         }
 
-        System.out.println(mesaj);
+        System.out.println("Th3: Suma totala = " + suma);
+    }
+}
 
-        randulLuiAlexandru = !randulLuiAlexandru;
-        Afisare.class.notifyAll();
+class Th4 implements Runnable {
+    private final int[] mas;
 
-        if (intrerupt) {
-            Thread.currentThread().interrupt();
+    public Th4(int[] mas) {
+        this.mas = mas;
+    }
+
+    @Override
+    public void run() {
+        int diferentaTotala = 0;
+
+        for (int i = 1; i + 3 < mas.length; i += 4) {
+            int p1 = mas[i] * mas[i + 1];
+            int p2 = mas[i + 2] * mas[i + 3];
+
+            diferentaTotala += p1 - p2;
+
+            System.out.printf(
+                    "Th4: P1=%d; P2=%d; Diferenta=%d%n",
+                    p1, p2, p1 - p2
+            );
         }
+
+        System.out.println(
+                "Th4: Diferenta totala = " + diferentaTotala
+        );
     }
 }
 
@@ -139,79 +118,43 @@ public class lab1 {
             throws InterruptedException {
 
         int[] mas = new int[100];
-        Random rnd = new Random();
+        Random random = new Random();
 
         for (int i = 0; i < mas.length; i++) {
-            mas[i] = rnd.nextInt(100) + 1;
+            mas[i] = random.nextInt(100) + 1;
         }
-        System.out.println("Tabloul comun:");
-        System.out.println(Arrays.toString(mas));
-        System.out.println();
 
-        // Impartim intervalele la granita dintre grupuri.
-        // Fiecare fir calculeaza 6 sume de cate doua produse.
+        System.out.println("Tabloul mas:");
+        for (int valoare : mas) {
+            System.out.print(valoare + " ");
+        }
+        System.out.println("\n");
 
-        // Alexandru: conditia 1, de la inceput.
-        Thread th1 = new Thread(
-                new Conditia1(mas, 0, 47, 1),
-                "Alexandru - Th1"
-        );
-
-        Thread th2 = new Thread(
-                new Conditia1(mas, 48, 99, 1),
-                "Alexandru - Th2"
-        );
-
-        // Vitalie: conditia 2, de la sfarsit.
-        Thread th3 = new Thread(
-                new Conditia2(mas, 99, 52, -1),
-                "Vitalie - Th1"
-        );
-
-        Thread th4 = new Thread(
-                new Conditia2(mas, 51, 0, -1),
-                "Vitalie - Th2"
-        );
+        Thread th1 = new Thread(new Th1(mas), "Th1");
+        Thread th2 = new Thread(new Th2(mas), "Th2");
+        Thread th3 = new Thread(new Th3(mas), "Th3");
+        Thread th4 = new Thread(new Th4(mas), "Th4");
 
         th1.start();
         th2.start();
         th3.start();
         th4.start();
 
-        // Asteptam terminarea tuturor firelor.
         th1.join();
         th2.join();
         th3.join();
         th4.join();
 
-        // Exista 50 de elemente pe pozitii impare:
-        // 12 grupuri de 4 elemente si 2 elemente ramase.
-        System.out.println("\n--- ELEMENTE RAMASE ---");
+        String studenti =
+                "Studenti: Numele Prenumele - Laboratorul de programare paralela.";
 
-        System.out.println(
-                "Conditia 1: pozitiile 97 si 99"
-                        + " | Produs ramas: " + mas[96] + "*" + mas[98]
-                        + "=" + (mas[96] * mas[98])
-                        + " | Nu exista al doilea produs pentru suma."
-        );
+        System.out.println("\nInformatii despre studenti:");
 
-        System.out.println(
-                "Conditia 2: pozitiile 3 si 1"
-                        + " | Produs ramas: " + mas[2] + "*" + mas[0]
-                        + "=" + (mas[2] * mas[0])
-                        + " | Nu exista al doilea produs pentru suma."
-        );
-
-        String info =
-                "\nLucrarea de laborator nr. 1\n"
-                        + "Varianta 6\n"
-                        + "Realizata de: Alexandru si Vitalie\n"
-                        + "Grupa: CR-241\n";
-
-        for (char c : info.toCharArray()) {
-            System.out.print(c);
-            System.out.flush();
+        for (int i = 0; i < studenti.length(); i++) {
+            System.out.print(studenti.charAt(i));
             Thread.sleep(100);
         }
+
+        System.out.println();
     }
 }
