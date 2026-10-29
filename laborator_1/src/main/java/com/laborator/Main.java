@@ -101,9 +101,10 @@ public class Main extends Application{
 
         //Sfarsitul codului
 
+        //Partea Bargan Ilie
         ListView<String> view = new ListView<String>(SumEvenNum.getList());
         
-        Label lb2 = new Label("Rezultatul programului");
+        Label lb2 = new Label("Rezultatul programului. Bargan Ilie");
         AnchorPane an2 = new AnchorPane();
 
         AnchorPane.setTopAnchor(view,  20.0);
@@ -117,9 +118,30 @@ public class Main extends Application{
 
         an2.getChildren().add(lb2);
         an2.getChildren().add(view);
+
+        //Partea Turcan Ion
+
+        ListView<String> view2 = new ListView<String>(HelloMir.getList());
+        
+        Label lb3 = new Label("Rezultatul programului. Țurcan Ion");
+        AnchorPane an3 = new AnchorPane();
+
+        AnchorPane.setTopAnchor(view2,  20.0);
+        AnchorPane.setRightAnchor(view2,  10.0);
+        AnchorPane.setBottomAnchor(view2,  10.0);
+        AnchorPane.setLeftAnchor(view2,  10.0);
+        
+        AnchorPane.setTopAnchor(lb3, 2.0);
+        AnchorPane.setRightAnchor(lb3, 40.0);
+        AnchorPane.setLeftAnchor(lb3, 40.0);
+
+
+        an3.getChildren().add(lb3);
+        an3.getChildren().add(view2);
   
-        sp.getItems().addAll(an1,an2);
-        sp.setDividerPosition(0, 0.7);
+        sp.getItems().addAll(an1,an2,an3);
+        sp.setDividerPosition(0, 0.4);
+        sp.setDividerPosition(1, 0.7);
 
 
 
@@ -215,5 +237,21 @@ class SumEvenNum implements Runnable {
 
         
 
+    }
+}
+
+class HelloMir implements Runnable{
+
+    private static ObservableList<String> threadList = FXCollections.observableArrayList();
+
+    @Override 
+    public void run(){
+
+        System.out.println("Hello");
+    }
+
+    public static ObservableList<String> getList(){
+
+        return threadList;
     }
 }
