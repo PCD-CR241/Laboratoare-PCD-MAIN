@@ -1,6 +1,4 @@
 package com.laborator;
-
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -90,14 +88,14 @@ public class Main extends Application{
                 j++;
             }
         }
-
+// crearea thdradurilor
         Thread sum1 = new Thread(new SumEvenNum(0, 99, numbers));
         Thread sum2 = new Thread(new SumEvenNum(99, 0, numbers));
 
         Thread hello = new Thread(new HelloMir(0, 99, numbers));
         Thread hello2 = new Thread(new HelloMir(99, 0, numbers));
 
-
+//Apoi sunt pornite: 
         sum1.setName("Unu");
         sum1.start();
         sum2.setName("Doi");
@@ -286,9 +284,9 @@ class HelloMir implements Runnable {
 
                             String rezultat =
                                     Thread.currentThread().getName()
-                                    + ": " + firstPos
-                                    + " + " + i
-                                    + " = " + suma;
+                                    + ":: " + firstPos
+                                    + " ++ " + i
+                                    + " == " + suma;
 
                             System.out.println(rezultat);
                             threadList.add(rezultat);
