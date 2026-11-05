@@ -1,4 +1,5 @@
 package com.laborator;
+
 public class Varianta21 {
 
     static class MyThread extends Thread {

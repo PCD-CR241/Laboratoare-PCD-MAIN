@@ -103,10 +103,10 @@ public class Main extends Application{
         sum2.setName("Doi");
         sum2.start();
 
-hello.setName("Hello");
-hello.start();
-hello2.setName("Hello2");
-hello2.start();
+        hello.setName("Hello");
+        hello.start();
+        hello2.setName("Hello2");
+        hello2.start();
 
 
 
