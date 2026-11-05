@@ -34,7 +34,7 @@ public class main {
 
         pregatite.await();
 
-        System.out.println("NIVEL MEDIU - VARIANTA 10 (+1 LA PRIORITATI)");
+        System.out.println("Nivel Mediu");
         afiseaza(grupaMain, "");
         System.out.println("Total thread-uri create: " + fire.length);
 
