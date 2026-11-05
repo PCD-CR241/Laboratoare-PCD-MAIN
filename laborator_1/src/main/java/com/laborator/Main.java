@@ -203,7 +203,7 @@ class SumEvenNum implements Runnable {
                     int res = num1 + num2;
 
                     String thread = Thread.currentThread().getName() + ": " + num1 + 
-                    " + " + num2 + " = " + res;
+                    " +++ " + num2 + " === " + res;
                     System.out.println(thread);
                     threadList.add(thread);
 
