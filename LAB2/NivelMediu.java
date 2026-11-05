@@ -1,5 +1,5 @@
 // Lab 2, varianta 7 - NIVEL MEDIU
-// Main{ ThA(3), Th11(3), Th22(3), G2{Th1(5), Th2(3), Th33(7)}, G1{G3{Thaa(2), Thbb(3), Thcc(8), Thdd(3)}} }
+// Main{ ThA(3), Th11(3), 2(3), G2{Th1(5), Th2(3), Th33(7)}, G1{G3{Thaa(2), Thbb(3), Thcc(8), Thdd(3)}} }
 // Conditie: NU suprascriem metoda run() din clasa Thread.
 
 public class NivelMediu {
@@ -36,14 +36,14 @@ public class NivelMediu {
         j.mesaj("(2) sys.list() - dupa setMaxPriority(9) si prioritatea firului curent +1:");
         j.lista(sys);
 
-        // ===== PASUL 2: firele singure, direct in main =====
+
         creeazaFir(sys, "ThA", 3);
         creeazaFir(sys, "Th11", 3);
         creeazaFir(sys, "Th22", 3);
         j.mesaj("(3) sys.list() - dupa crearea firelor singure ThA, Th11, Th22:");
         j.lista(sys);
 
-        // ===== PASUL 3: grupul G2 =====
+
         ThreadGroup g2 = new ThreadGroup(sys, "G2");
         creeazaFir(g2, "Th1", 5);
         creeazaFir(g2, "Th2", 3);
@@ -51,7 +51,7 @@ public class NivelMediu {
         j.mesaj("(4) g2.list() - grupul G2:");
         j.lista(g2);
 
-        // ===== PASUL 4: grupul G1 si subgrupul G3 =====
+
         ThreadGroup g1 = new ThreadGroup(sys, "G1");
         ThreadGroup g3 = new ThreadGroup(g1, "G3");      // G3 e copilul lui G1
         creeazaFir(g3, "Thaa", 2);
@@ -61,11 +61,11 @@ public class NivelMediu {
         j.mesaj("(5) g1.list() - grupul G1, cu subgrupul G3:");
         j.lista(g1);
 
-        // ===== PASUL 5: structura completa =====
+
         j.mesaj("(6) sys.list() - structura completa:");
         j.lista(sys);
 
-        // ===== PASUL 6: enumerarea firelor: nume, grup, prioritate =====
+
         Thread[] fire = new Thread[sys.activeCount()];
         int n = sys.enumerate(fire, true);                // true = si din subgrupuri
         j.mesaj("(7) Enumerarea firelor:");
