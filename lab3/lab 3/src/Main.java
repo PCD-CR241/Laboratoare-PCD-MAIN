@@ -23,7 +23,7 @@ public class Main {
 
         @Override
         public void run() {
-            mimir.write("Starting Thread 1 - Straight", color);
+            mimir.writeln("Starting Thread 1 - Straight", color);
             for (int i = 0; i + 1 < counter; i += 2) {
                 try {
                     Thread.sleep(100);
@@ -31,7 +31,7 @@ public class Main {
                     e.printStackTrace();
                 }
                 int result = a[i] + a[i + 1];
-                mimir.write(
+                mimir.writeln(
                         "Thread 1: " + a[i] + " + " +
                                 a[i + 1] + " = " + result,
                         color
@@ -39,7 +39,7 @@ public class Main {
             }
 
             if (counter % 2 != 0) {
-                mimir.write("Numar ramas: " + a[counter - 1], color);
+                mimir.writeln("Numar ramas: " + a[counter - 1], color);
             }
 
             while (fourth.isAlive()) {
@@ -50,7 +50,7 @@ public class Main {
                 }
             }
 
-            mimir.write("1: Scutaru", color);
+            mimir.writeln("1: Scutaru", color);
         }
     }
 
@@ -63,7 +63,7 @@ public class Main {
         }
         @Override
         public void run() {
-            mimir.write("Starting Thread 2 - Reverse", color);
+            mimir.writeln("Starting Thread 2 - Reverse", color);
             for (int i = counter - 1; i - 1 >= 0; i -= 2) {
                 try {
                     Thread.sleep(100);
@@ -71,7 +71,7 @@ public class Main {
                     e.printStackTrace();
                 }
                 int result = a[i] + a[i - 1];
-                mimir.write(
+                mimir.writeln(
                         "Thread 2: " + a[i] + " + " +
                                 a[i - 1] + " = " + result,
                         color
@@ -79,60 +79,14 @@ public class Main {
             }
 
             if (counter % 2 != 0) {
-                mimir.write("Numar ramas: " + a[0], color);
+                mimir.writeln("Numar ramas: " + a[0], color);
             }
-            mimir.write("2: Laurentiu", color);
+            mimir.writeln("2: Laurentiu", color);
         }
     }
 
-    public static class ReverseInterval extends Thread {
-        Lucky mimir;
-        String color;
-        ReverseInterval(Lucky world, String pain) {
-            mimir = world;
-            color = pain;
-        }
-        @Override
-        public void run() {
-            mimir.write("Starting Thread 3 - ReverseInterval", color);
-            for (int i = 890; i >= 123; i--) {
-                mimir.write(String.valueOf(i), color);
-            }
-            while (first.isAlive()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            mimir.write("3: P C D", color);
-        }
-    }
+ 
 
-    public static class StraightInterval extends Thread {
-
-        Lucky mimir;
-        String color;
-        StraightInterval(Lucky world, String pain) {
-            mimir = world;
-            color = pain;
-        }
-        @Override
-        public void run() {
-            mimir.write("Starting Thread 4 - StraightInterval", color);
-            for (int i = 234; i <= 987; i++) {
-                mimir.write(String.valueOf(i), color);
-            }
-            while (second.isAlive()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            mimir.write("4: CR-241", color);
-        }
-    }
 
     public static void main(String[] args) {
          Lucky Window = new Lucky("Lab3 PCD");
