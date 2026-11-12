@@ -1,7 +1,5 @@
 
 public class rihter {
-    static volatile boolean gata3 = false;
-
     static void afiseaza(String text) throws InterruptedException {
         for (char c : text.toCharArray()) {
             System.out.print(c);
@@ -11,11 +9,8 @@ public class rihter {
     }
 
     static class Th3 extends Thread {
-        private final Th4 th4;
-
-        Th3(Th4 th4) {
+        Th3() {
             super("Th3");
-            this.th4 = th4;
         }
 
         public void run() {
@@ -27,13 +22,15 @@ public class rihter {
             }
 
             System.out.println(rezultat);
-            gata3 = true;
 
             try {
-                th4.join();
-                afiseaza("Th3: Programarea concurenta si distribuita");
+                Thread.sleep(Long.MAX_VALUE);
             } catch (InterruptedException e) {
-                interrupt();
+                try {
+                    afiseaza("Th3: Programarea concurenta si distribuita");
+                } catch (InterruptedException ex) {
+                    interrupt();
+                }
             }
         }
     }
@@ -54,25 +51,14 @@ public class rihter {
             System.out.println(rezultat);
 
             try {
-                while (!gata3) {
-                    Thread.sleep(10);
-                }
-
-                afiseaza("Th4: CR-241");
+                Thread.sleep(Long.MAX_VALUE);
             } catch (InterruptedException e) {
-                interrupt();
+                try {
+                    afiseaza("Th4: CR-241");
+                } catch (InterruptedException ex) {
+                    interrupt();
+                }
             }
         }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        Th4 th4 = new Th4();
-        Th3 th3 = new Th3(th4);
-
-        th3.start();
-        th4.start();
-
-        th3.join();
-        th4.join();
     }
 }
