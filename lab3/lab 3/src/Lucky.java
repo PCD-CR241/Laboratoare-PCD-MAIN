@@ -31,6 +31,25 @@ class Lucky extends JFrame{
             try {
                 doc.insertString(  //in doc este pastrat textul, noi inseram text nou care(pozitie-capat vechi,text -mesaj+enter, colectie de atribute a acestui bloc de text)
                         doc.getLength(),
+                        arg,
+                        style
+                );
+
+                mirror.setCaretPosition(doc.getLength());//seteaza indicatorul la end of file
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    public void writeln(String arg, String c){
+        SwingUtilities.invokeLater(() -> {
+            SimpleAttributeSet style = new SimpleAttributeSet(); //implimentare a MutableAttributeSet- colectie de atribute
+            StyleConstants.setForeground(style, Color.decode(c));  //atribuirea atributului de foreground la style cu valoare de coloare.decode(c);
+            //StyleConstant- "A collection of well known or common attribute keys and methods to apply to an AttributeSet or MutableAttributeSet to get/set the properties"
+            //adica instrument de atribuire a atributelor pentru element ce implimenteaza MutableAttributeSet
+            try {
+                doc.insertString(  //in doc este pastrat textul, noi inseram text nou care(pozitie-capat vechi,text -mesaj+enter, colectie de atribute a acestui bloc de text)
+                        doc.getLength(),
                         arg + "\n",
                         style
                 );
