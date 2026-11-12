@@ -17,10 +17,19 @@ public class Varianta21 {
                     + " | Prioritate: " + getPriority());
 
             try {
-                Thread.sleep(10000);
+
+                // Optimizare pentru Thb
+                if (getName().equals("Thb")) {
+                    Thread.sleep(2000);
+                } else {
+                    Thread.sleep(10000);
+                }
+
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
+
+            System.out.println("<<< S-a terminat: " + getName());
         }
     }
 
@@ -39,7 +48,10 @@ public class Varianta21 {
 
         // Fire din G1
         Thread tha = new MyThread(g1, "Tha", 1);
-        Thread thb = new MyThread(g1, "Thb", 3);
+
+        // OPTIMIZAT
+        Thread thb = new MyThread(g1, "Thb", 8);
+
         Thread thc = new MyThread(g1, "Thc", 8);
         Thread thd = new MyThread(g1, "Thd", 3);
 
@@ -77,7 +89,7 @@ public class Varianta21 {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         System.out.println("\n=== Structura completa (list()) ===");
@@ -89,13 +101,12 @@ public class Varianta21 {
         try {
             Thread.sleep(11000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         System.out.println("\n=== Toate firele s-au terminat ===");
     }
 
-    // Enumerare recursiva
     public static void enumerateAll(ThreadGroup group) {
 
         System.out.println("\nGrup: " + group.getName()

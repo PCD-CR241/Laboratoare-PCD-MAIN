@@ -44,7 +44,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.laborator.ThreadGroup1</mainClass>
+                            <mainClass>com.laborator.Varianta21</mainClass>
                         </configuration>
                     </execution>
                 </executions>
