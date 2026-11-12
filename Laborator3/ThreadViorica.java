@@ -41,6 +41,7 @@ public class ThreadViorica extends Thread {
                     suma += valoare;
                 }
                 pozitie += pas;
+                Thread.yield();
             }
 
             afiseaza("\n" + (sarcinaTrei ? "Th3" : "Th4")
