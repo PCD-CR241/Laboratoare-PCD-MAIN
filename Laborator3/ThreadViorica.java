@@ -46,9 +46,6 @@ public class ThreadViorica extends Thread {
 
             afiseaza("\n" + (sarcinaTrei ? "Th3" : "Th4")
                     + " - valori: " + numar + ", suma: " + suma + "\n");
-            afiseazaLent(sarcinaTrei
-                    ? "Prenumele studentului: Viorica\n"
-                    : "Grupa studentului: CR-241\n");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             afiseaza("\n" + (sarcinaTrei ? "Th3" : "Th4")
@@ -58,12 +55,5 @@ public class ThreadViorica extends Thread {
 
     private void afiseaza(String text) {
         SwingUtilities.invokeLater(() -> afisaj.append(text));
-    }
-
-    private void afiseazaLent(String text) throws InterruptedException {
-        for (char litera : text.toCharArray()) {
-            afiseaza(String.valueOf(litera));
-            Thread.sleep(100);
-        }
     }
 }

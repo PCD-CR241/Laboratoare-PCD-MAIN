@@ -37,7 +37,10 @@ public class Main {
             zonaTextComuna.append("\nExecutia a fost intrerupta.\n");
         }
 
-        String textFinal = "\n\nTOATE FIRELE AU FINISAT\n"
+        String textFinal = "\n\nTh3 - Denumirea disciplinei: "
+                + "Programarea concurenta si distribuita\n"
+                + "Th4 - Grupa: CR-241\n"
+                + "TOATE FIRELE AU FINISAT\n"
                 + "Lucrarea a fost efectuata de studentele: Agachi si Timbal.";
         for (char litera : textFinal.toCharArray()) {
             System.out.print(litera);
