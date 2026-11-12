@@ -50,7 +50,7 @@ public class Main {
                 }
             }
 
-            mimir.writeln("1: Scutaru", color);
+            mimir.writeln("1: Scutaru/Burdic", color);
         }
     }
 
@@ -81,11 +81,11 @@ public class Main {
             if (counter % 2 != 0) {
                 mimir.writeln("Numar ramas: " + a[0], color);
             }
-            mimir.writeln("2: Laurentiu", color);
+            mimir.writeln("2: Laurentiu/Stas", color);
         }
     }
 
- 
+
 
 
     public static void main(String[] args) {
