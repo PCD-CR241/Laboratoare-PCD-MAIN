@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.util.concurrent.ExecutionException;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static int size = 100;
     static int counter = 0;
@@ -119,8 +117,8 @@ public class Main {
         Window.write("Numarul numerelor impare: " + counter, "#000000");
         first = new Straight(Window, "#d40b0b");
         second = new Reverse(Window, "#0000cc");
-        third = new Collar("fir1",234,987,1, Window, "#0000ff");
-        fourth = new Collar("fir1",123,890,-1, Window, "#d9b2ff");
+        third = new Collar("fir3",234,987,1, Window, "#0000ff");
+        fourth = new Collar("fir4",123,890,-1, Window, "#d9b2ff");
 
         second.setPriority(10);
         first.start();
@@ -148,9 +146,9 @@ public class Main {
         }
         @Override
         public void run(){
-            mimir.writeln(this.getName()+" rulare de numere :",color);
+
             for (int i = p<0?b:a;(i<=b)&&(i>=a);i+=p){
-                mimir.write(" "+i,color);
+                mimir.write(this.getName()+" "+i+" ",color);
             }
             if(p>0){
                 while(first.isAlive()){
