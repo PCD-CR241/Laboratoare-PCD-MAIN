@@ -15,6 +15,9 @@ public class Main {
     static AtomicInteger produse = new AtomicInteger();
     static AtomicInteger consumate = new AtomicInteger();
 
+    static CyclicBarrier bariera = new CyclicBarrier(6,
+            () -> mesaj("Toate cele 6 thread-uri au ajuns la bariera. Incepem!"));
+
     static synchronized void mesaj(String text) {
         System.out.println(text);
     }

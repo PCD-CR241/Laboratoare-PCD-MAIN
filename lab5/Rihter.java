@@ -12,6 +12,9 @@ public class Rihter implements Runnable {
     @Override
     public void run() {
         try {
+            Main.mesaj("Producator " + id + " asteapta la bariera.");
+            Main.bariera.await();
+
             while (Main.loturi.getAndIncrement() < Main.TOTAL_LOTURI) {
                 for (int i = 0; i < 2; i++) {
                     int numar = ThreadLocalRandom.current().nextInt(1, 51) * 2 - 1;
@@ -32,6 +35,8 @@ public class Rihter implements Runnable {
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (BrokenBarrierException e) {
+            Main.mesaj("Producator " + id + ": bariera a fost intrerupta.");
         }
     }
 }

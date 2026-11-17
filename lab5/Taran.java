@@ -12,6 +12,9 @@ public class Taran implements Runnable {
     @Override
     public void run() {
         try {
+            Main.mesaj("Consumator " + id + " asteapta la bariera.");
+            Main.bariera.await();
+
             for (int i = 1; i <= Main.OBIECTE; i++) {
                 Integer numar;
 
@@ -30,6 +33,8 @@ public class Taran implements Runnable {
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (BrokenBarrierException e) {
+            Main.mesaj("Consumator " + id + ": bariera a fost intrerupta.");
         }
     }
 }
