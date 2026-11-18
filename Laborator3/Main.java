@@ -23,13 +23,22 @@ public class Main {
 
         zonaTextComuna.append("START EXECUTIE FIRE\n\n");
 
-        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, null);
+        ThreadAxenia th1 = new ThreadAxenia(date, zonaTextComuna, true, null);
+        ThreadAxenia th2 = new ThreadAxenia(date, zonaTextComuna, false, th1);
+
+        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, th2);
         ThreadViorica th4 = new ThreadViorica(date, zonaTextComuna, false, th3);
+
+        th1.start();
+        th2.start();
 
         th3.start();
         th4.start();
 
         try {
+            th1.join();
+            th2.join();
+
             th3.join();
             th4.join();
         } catch (InterruptedException e) {
@@ -37,11 +46,13 @@ public class Main {
             zonaTextComuna.append("\nExecutia a fost intrerupta.\n");
         }
 
-        String textFinal = "\n\nTh3 - Denumirea disciplinei: "
-                + "Programarea concurenta si distribuita\n"
+        String textFinal = "\n\nTh1 - Prenumele studentelor: Axenia si Viorica\n"
+                + "Th2 - Numele studentelor: Timbal si Agachi\n"
+                + "Th3 - Denumirea disciplinei: Programarea concurenta si distribuita\n"
                 + "Th4 - Grupa: CR-241\n"
                 + "TOATE FIRELE AU FINISAT\n"
                 + "Lucrarea a fost efectuata de studentele: Agachi si Timbal.";
+
         for (char litera : textFinal.toCharArray()) {
             System.out.print(litera);
             System.out.flush();
