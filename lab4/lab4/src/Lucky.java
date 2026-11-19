@@ -16,7 +16,7 @@ class Lucky extends JFrame{
 
         mirror= new JTextPane();
         mirror.setEditable(false);
-        mirror.setBackground( Color.decode("#e8e8e8"));
+        mirror.setBackground( Color.decode("#1B1B29"));
         doc = mirror.getStyledDocument();//get document in care este pastrat textul cu toate atributele
         add(new JScrollPane(mirror));
 
