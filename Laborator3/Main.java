@@ -23,20 +23,19 @@ public class Main {
 
         zonaTextComuna.append("START EXECUTIE FIRE\n\n");
 
-        ThreadAxenia th1 = new ThreadAxenia(date, zonaTextComuna, true, null);
-        ThreadAxenia th2 = new ThreadAxenia(date, zonaTextComuna, false, th1);
-        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, th1);
+        ThreadAxenia th2 = new ThreadAxenia(date, zonaTextComuna, false, null);
         ThreadViorica th4 = new ThreadViorica(date, zonaTextComuna, false, th2);
+        ThreadAxenia th1 = new ThreadAxenia(date, zonaTextComuna, true, th4);
+        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, th1);
 
-        th1.start();
         th2.start();
-        th3.start();
         th4.start();
+        th1.start();
+        th3.start();
         
 
         try {
             th3.join();
-            th4.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             zonaTextComuna.append("\nExecutia a fost intrerupta.\n");
