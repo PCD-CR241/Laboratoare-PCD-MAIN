@@ -61,7 +61,6 @@ public class ThreadAxenia extends Thread {
             scrieInConsola("\n" + (deLaInceput ? "Th1" : "Th2") + " a fost intrerupt.\n");
         }
     }
-
     private void scrieInConsola(String text) {
         SwingUtilities.invokeLater(() -> afisaj.append(text));
     }
