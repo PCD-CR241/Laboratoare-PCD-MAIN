@@ -143,6 +143,7 @@ class Consumer extends Thread {
         this.s = s;
         clr=sector;
     }
+    @Override
     public void run() {
         char t;
         for (int i = 0; i < 12; i++) {
