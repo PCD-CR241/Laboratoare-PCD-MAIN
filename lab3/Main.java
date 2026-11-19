@@ -14,8 +14,8 @@ public class Main {
         }
         System.out.println();
 
-        th1 = new Pislari("Th1", v, false, "Andreea");
-        th2 = new Pislari("Th2", v, true, "Pislari");
+        th1 = new Pislari("Th1", v, false, "Andreea, Laura");
+th2 = new Pislari("Th2", v, true, "Pislari, Volcovschi");
         th3 = new Thread(new Volcovschi(222, 999, true, "Programarea Concurenta si Distribuita"), "Th3");
         th4 = new Thread(new Volcovschi(3333, 3999, false, "CR-241"), "Th4");
 
