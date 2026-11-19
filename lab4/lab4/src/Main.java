@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Lucky star=new Lucky("lab4");
+        Lucky star=new Lucky("lab4","#ffffff");
         star.setVisible(true);
         Store store = new Store(star);
         ThreadGroup producer=new ThreadGroup("Producer");
@@ -143,6 +143,7 @@ class Consumer extends Thread {
         this.s = s;
         clr=sector;
     }
+    @Override
     public void run() {
         char t;
         for (int i = 0; i < 12; i++) {
