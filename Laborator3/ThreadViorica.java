@@ -4,35 +4,35 @@ import javax.swing.SwingUtilities;
 public class ThreadViorica extends Thread {
     private final int[] date;
     private final JTextArea afisaj;
-    private final boolean sarcinaTrei;
-    private final Thread firAnterior;
+    private final boolean start;
+    private final Thread ThreadAnt;
 
-    public ThreadViorica(int[] date, JTextArea afisaj, boolean sarcinaTrei,
-                         Thread firAnterior) {
+    public ThreadViorica(int[] date, JTextArea afisaj, boolean start,
+                         Thread ThreadAnt) {
         this.date = date;
         this.afisaj = afisaj;
-        this.sarcinaTrei = sarcinaTrei;
-        this.firAnterior = firAnterior;
+        this.start = start;
+        this.ThreadAnt = ThreadAnt;
     }
 
     @Override
     public void run() {
         try {
-            if (firAnterior != null) {
-                firAnterior.join();
+            if (ThreadAnt != null) {
+                ThreadAnt.join();
             }
 
-            int minim = sarcinaTrei ? 100 : 300;
-            int maxim = sarcinaTrei ? 500 : 700;
+            int minim = start ? 100 : 300;
+            int maxim = start ? 500 : 700;
             int numar = 0;
             int suma = 0;
 
-            afiseaza((sarcinaTrei ? "Th3 - Sarcina 3, parcurgere de la inceput, "
+            afiseaza((start ? "Th3 - Sarcina 3, parcurgere de la inceput, "
                     : "Th4 - Sarcina 4, parcurgere de la sfarsit, ")
                     + "intervalul [" + minim + ", " + maxim + "]\n");
 
-            int pozitie = sarcinaTrei ? 0 : date.length - 1;
-            int pas = sarcinaTrei ? 1 : -1;
+            int pozitie = start ? 0 : date.length - 1;
+            int pas = start ? 1 : -1;
             while (pozitie >= 0 && pozitie < date.length) {
                 int valoare = date[pozitie];
                 if (valoare >= minim && valoare <= maxim) {
@@ -44,11 +44,11 @@ public class ThreadViorica extends Thread {
                 Thread.yield();
             }
 
-            afiseaza("\n" + (sarcinaTrei ? "Th3" : "Th4")
+            afiseaza("\n" + (start ? "Th3" : "Th4")
                     + " - valori: " + numar + ", suma: " + suma + "\n");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            afiseaza("\n" + (sarcinaTrei ? "Th3" : "Th4")
+            afiseaza("\n" + (start ? "Th3" : "Th4")
                     + " a fost intrerupt.\n");
         }
     }
