@@ -19,8 +19,8 @@ public class ThreadAxenia extends Thread {
     @Override
     public void run() {
         try {
-            while (firDeAsteptat != null && firDeAsteptat.isAlive()) {
-                Thread.sleep(50);
+            if (!deLaInceput) {
+                asteaptaTh1();
             }
 
             String numeFir = deLaInceput ? "Th1" : "Th2";
@@ -64,5 +64,11 @@ public class ThreadAxenia extends Thread {
 
     private void scrieInConsola(String text) {
         SwingUtilities.invokeLater(() -> afisaj.append(text));
+    }
+
+    private void asteaptaTh1() throws InterruptedException {
+        while (firDeAsteptat != null && firDeAsteptat.isAlive()) {
+            Thread.sleep(50);
+        }
     }
 }

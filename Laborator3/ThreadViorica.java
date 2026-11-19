@@ -5,21 +5,23 @@ public class ThreadViorica extends Thread {
     private final int[] date;
     private final JTextArea afisaj;
     private final boolean start;
-    private final Thread ThreadAnt;
+    private final Thread firAsteptat;
 
     public ThreadViorica(int[] date, JTextArea afisaj, boolean start,
-                         Thread ThreadAnt) {
+                         Thread firAsteptat) {
         this.date = date;
         this.afisaj = afisaj;
         this.start = start;
-        this.ThreadAnt = ThreadAnt;
+        this.firAsteptat = firAsteptat;
     }
 
     @Override
     public void run() {
         try {
-            if (ThreadAnt != null) {
-                ThreadAnt.join();
+            if (start) {
+                asteaptaTh1();
+            } else {
+                asteaptaTh2();
             }
 
             int minim = start ? 100 : 300;
@@ -46,6 +48,7 @@ public class ThreadViorica extends Thread {
 
             afiseaza("\n" + (start ? "Th3" : "Th4")
                     + " - valori: " + numar + ", suma: " + suma + "\n");
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             afiseaza("\n" + (start ? "Th3" : "Th4")
@@ -56,4 +59,17 @@ public class ThreadViorica extends Thread {
     private void afiseaza(String text) {
         SwingUtilities.invokeLater(() -> afisaj.append(text));
     }
+
+    private void asteaptaTh1() throws InterruptedException {
+        if (firAsteptat != null) {
+            firAsteptat.join();
+        }
+    }
+
+    private void asteaptaTh2() throws InterruptedException {
+        if (firAsteptat != null) {
+            firAsteptat.join();
+        }
+    }
+
 }

@@ -25,20 +25,16 @@ public class Main {
 
         ThreadAxenia th1 = new ThreadAxenia(date, zonaTextComuna, true, null);
         ThreadAxenia th2 = new ThreadAxenia(date, zonaTextComuna, false, th1);
-
-        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, th2);
-        ThreadViorica th4 = new ThreadViorica(date, zonaTextComuna, false, th3);
+        ThreadViorica th3 = new ThreadViorica(date, zonaTextComuna, true, th1);
+        ThreadViorica th4 = new ThreadViorica(date, zonaTextComuna, false, th2);
 
         th1.start();
         th2.start();
-
         th3.start();
         th4.start();
+        
 
         try {
-            th1.join();
-            th2.join();
-
             th3.join();
             th4.join();
         } catch (InterruptedException e) {
@@ -49,9 +45,7 @@ public class Main {
         String textFinal = "\n\nTh2 - Numele studentelor: Timbal si Agachi\n"
                 + "Th4 - Grupa: CR-241\n"
                 + "Th1 - Prenumele studentelor: Axenia si Viorica\n"
-                + "Th3 - Denumirea disciplinei: Programarea concurenta si distribuita\n"
-                + "TOATE FIRELE AU FINISAT\n"
-                + "Lucrarea a fost efectuata de studentele: Agachi si Timbal.";
+                + "Th3 - Denumirea disciplinei: Programarea concurenta si distribuita\n";
 
         for (char litera : textFinal.toCharArray()) {
             System.out.print(litera);
