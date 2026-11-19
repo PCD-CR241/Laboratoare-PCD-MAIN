@@ -1,7 +1,6 @@
 import java.util.Random;
 
 public class Main {
-    static Thread th1, th2, th3, th4;
 
     public static void main(String[] args) throws InterruptedException {
         int[] v = new int[100];
@@ -14,10 +13,12 @@ public class Main {
         }
         System.out.println();
 
-        th1 = new Pislari("Th1", v, false, "Andreea, Laura");
-th2 = new Pislari("Th2", v, true, "Pislari, Volcovschi");
-        th3 = new Thread(new Volcovschi(222, 999, true, "Programarea Concurenta si Distribuita"), "Th3");
-        th4 = new Thread(new Volcovschi(3333, 3999, false, "CR-241"), "Th4");
+        // Ordinea afisarii textelor: Th2 -> Th4 -> Th1 -> Th3
+        // Fiecare fir primeste firul dupa care trebuie sa astepte (join)
+        Pislari th2 = new Pislari("Th2", v, true, "Pislari, Volcovschi", null);
+        Thread th4 = new Thread(new Volcovschi(3333, 3999, false, "CR-241", th2), "Th4");
+        Pislari th1 = new Pislari("Th1", v, false, "Andreea, Laura", th4);
+        Thread th3 = new Thread(new Volcovschi(222, 999, true, "Programarea Concurenta si Distribuita", th1), "Th3");
 
         th1.start();
         th2.start();
