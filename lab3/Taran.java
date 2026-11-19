@@ -1,4 +1,3 @@
-
 public class Taran {
     static int[] numere = new int[100];
 
@@ -10,13 +9,26 @@ public class Taran {
         System.out.println();
     }
 
+    static void asteaptaSiAfiseaza(Thread fir, String text) {
+        try {
+            while (fir.getPriority() != Thread.MAX_PRIORITY) {
+                Thread.sleep(10);
+            }
+            System.out.print(fir.getName() + ": ");
+            afiseaza(text);
+        } catch (InterruptedException e) {
+            fir.interrupt();
+        }
+    }
+
     static class Th1 extends Thread {
         Th1() {
             super("Th1");
         }
 
+        @Override
         public void run() {
-            for (int i = 0; i + 6 < numere.length; i += 8) {
+            for (int i = 1; i + 6 < numere.length; i += 8) {
                 int p1 = numere[i] * numere[i + 2];
                 int p2 = numere[i + 4] * numere[i + 6];
 
@@ -26,15 +38,7 @@ public class Taran {
                         numere[i + 6] + ") = " + (p1 - p2));
             }
 
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (InterruptedException e) {
-                try {
-                    afiseaza("Th1: Daniel");
-                } catch (InterruptedException ex) {
-                    interrupt();
-                }
-            }
+            asteaptaSiAfiseaza(this, "Daniel");
         }
     }
 
@@ -43,8 +47,9 @@ public class Taran {
             super("Th2");
         }
 
+        @Override
         public void run() {
-            for (int i = numere.length - 2; i - 6 >= 0; i -= 8) {
+            for (int i = numere.length - 1; i - 6 >= 0; i -= 8) {
                 int p1 = numere[i] * numere[i - 2];
                 int p2 = numere[i - 4] * numere[i - 6];
 
@@ -54,15 +59,7 @@ public class Taran {
                         numere[i - 6] + ") = " + (p1 - p2));
             }
 
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (InterruptedException e) {
-                try {
-                    afiseaza("Th2: Taran");
-                } catch (InterruptedException ex) {
-                    interrupt();
-                }
-            }
+            asteaptaSiAfiseaza(this, "Taran");
         }
     }
 }

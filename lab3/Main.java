@@ -1,9 +1,9 @@
-
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Random random = new Random(10);
+
 
         for (int i = 0; i < Taran.numere.length; i++) {
             Taran.numere[i] = random.nextInt(101) + 15;
@@ -13,6 +13,12 @@ public class Main {
         Taran.Th2 th2 = new Taran.Th2();
         rihter.Th3 th3 = new rihter.Th3();
         rihter.Th4 th4 = new rihter.Th4();
+
+        System.out.println("Tabloul de numere:");
+        for (int i = 0; i < Taran.numere.length; i++) {
+            System.out.print(Taran.numere[i] + " ");
+        }
+        System.out.println("\n");
 
         th1.start();
         th2.start();
@@ -27,14 +33,20 @@ public class Main {
             }
         }
 
-        th2.interrupt();
-        th2.join();
+
+        th2.setPriority(Thread.MAX_PRIORITY);
+        while (th2.isAlive()) {
+            Thread.sleep(10);
+        }
 
         th4.interrupt();
         th4.join();
 
-        th1.interrupt();
-        th1.join();
+        th1.setPriority(Thread.MAX_PRIORITY);
+        while (th1.isAlive()) {
+            Thread.sleep(10);
+        }
+
 
         th3.interrupt();
         th3.join();
