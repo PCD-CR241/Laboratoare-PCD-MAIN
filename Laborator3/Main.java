@@ -46,10 +46,10 @@ public class Main {
             zonaTextComuna.append("\nExecutia a fost intrerupta.\n");
         }
 
-        String textFinal = "\n\nTh1 - Prenumele studentelor: Axenia si Viorica\n"
-                + "Th2 - Numele studentelor: Timbal si Agachi\n"
-                + "Th3 - Denumirea disciplinei: Programarea concurenta si distribuita\n"
+        String textFinal = "\n\nTh2 - Numele studentelor: Timbal si Agachi\n"
                 + "Th4 - Grupa: CR-241\n"
+                + "Th1 - Prenumele studentelor: Axenia si Viorica\n"
+                + "Th3 - Denumirea disciplinei: Programarea concurenta si distribuita\n"
                 + "TOATE FIRELE AU FINISAT\n"
                 + "Lucrarea a fost efectuata de studentele: Agachi si Timbal.";
 
