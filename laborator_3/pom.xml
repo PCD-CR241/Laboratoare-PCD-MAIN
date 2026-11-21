@@ -44,7 +44,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.laborator.Syncron</mainClass>
+                            <mainClass>com.laborator.Main</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -21,7 +21,7 @@
 .number-grid .button {
     -fx-background-radius: 6;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 22px;
     -fx-padding: 0;
 }
 .number-grid .button.even {
