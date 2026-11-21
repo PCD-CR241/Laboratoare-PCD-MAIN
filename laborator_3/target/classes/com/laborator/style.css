@@ -73,6 +73,12 @@
     -fx-font-weight: bold;
 }
 
+.th3-progress .bar {
+    -fx-background-color: #43a047;
+    -fx-background-insets: 1;
+    -fx-background-radius: 4;
+}
+
 .log-list {
     -fx-background-color: white;
     -fx-background-radius: 8;
@@ -102,7 +108,7 @@
 }
 
 .name-text {
-    -fx-font-size: 28px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-text-fill: #222;
     -fx-background-color: white;
