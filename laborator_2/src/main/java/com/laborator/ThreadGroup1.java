@@ -18,16 +18,12 @@ public class ThreadGroup1 extends Application {
         mainGroup = Thread.currentThread().getThreadGroup();
 
         g3 = new ThreadGroup(mainGroup, "G3");
-        g3.setMaxPriority(5);
 
         g2 = new ThreadGroup(mainGroup, "G2");
-        g2.setMaxPriority(8);
 
         g4 = new ThreadGroup(g2, "G4");
-        g4.setMaxPriority(8);
 
         g1 = new ThreadGroup(g4, "G1");
-        g1.setMaxPriority(8);
 
         newThread(mainGroup, "Th1", 3);
         newThread(mainGroup, "Th2", 6);
@@ -80,26 +76,32 @@ public class ThreadGroup1 extends Application {
 
     }
 
+   
     static void addGroup(ThreadGroup g, int level, ObservableList<String> items) {
 
         String indent = "    ".repeat(level);
-        items.add(indent + g.getName() + "  (maxPriority=" + g.getMaxPriority() + ")");
+        items.add(indent + g.getName() + " (maxPriority=" + g.getMaxPriority() + ")");
 
         ThreadGroup[] groups = new ThreadGroup[g.activeGroupCount() + 4];
         int gc = g.enumerate(groups, false);
+
         for (int i = 0; i < gc; i++) {
             addGroup(groups[i], level + 1, items);
         }
 
         Thread[] threads = new Thread[g.activeCount() + 4];
         int tc = g.enumerate(threads, false);
+
         for (int i = 0; i < tc; i++) {
             Thread t = threads[i];
-            items.add(indent + "    " + t.getName() + "  [P" + t.getPriority()
-                    + (t.isDaemon() ? ", daemon" : "") + "]");
-        }
 
+            items.add(indent + "    " +
+                    t.getName() +
+                    " (Priority: " + t.getPriority() +
+                    ", Daemon: " + t.isDaemon() + ")");
+        }
     }
+
 
     static Thread newThread(ThreadGroup tg, String name, int priority) {
 
