@@ -1,0 +1,120 @@
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f4f5f7;
+}
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.split-pane > .split-pane-divider {
+    -fx-background-color: #d0d4da;
+    -fx-padding: 0 2 0 2;
+}
+
+.number-grid {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+.number-grid .button {
+    -fx-background-radius: 6;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-padding: 0;
+}
+.number-grid .button.even {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+}
+.number-grid .button.odd {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #555;
+}
+.number-grid .button.th1 {
+    -fx-background-color: #1e88e5;
+    -fx-text-fill: white;
+}
+.number-grid .button.th2 {
+    -fx-background-color: #fb8c00;
+    -fx-text-fill: white;
+}
+.number-grid .button.th1.th2 {
+    -fx-background-color: linear-gradient(to right, #1e88e5 50%, #fb8c00 50%);
+}
+
+.start-btn {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16 8 16;
+}
+
+.state1 {
+    -fx-text-fill: #0d47a1;
+    -fx-font-family: "Consolas", monospace;
+}
+.state2 {
+    -fx-text-fill: #e65100;
+    -fx-font-family: "Consolas", monospace;
+}
+.state3 {
+    -fx-text-fill: #2e7d32;
+    -fx-font-family: "Consolas", monospace;
+}
+.state4 {
+    -fx-text-fill: #6a1b9a;
+    -fx-font-family: "Consolas", monospace;
+}
+
+.pane-title {
+    -fx-font-weight: bold;
+}
+
+.th3-progress .bar {
+    -fx-background-color: #43a047;
+    -fx-background-insets: 1;
+    -fx-background-radius: 4;
+}
+
+.log-list {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d4da;
+    -fx-border-radius: 8;
+}
+.log-list .list-cell {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-padding: 4 8 4 8;
+}
+.log-list .list-cell.unu {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #0d47a1;
+}
+.log-list .list-cell.doi {
+    -fx-background-color: #fff3e0;
+    -fx-text-fill: #e65100;
+}
+.log-list .list-cell.trei {
+    -fx-background-color: #e8f5e9;
+    -fx-text-fill: #2e7d32;
+}
+.log-list .list-cell.patru {
+    -fx-background-color: #f3e5f5;
+    -fx-text-fill: #6a1b9a;
+}
+
+.name-text {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d4da;
+    -fx-border-radius: 8;
+    -fx-padding: 8 14 8 14;
+    -fx-min-height: 56px;
+}
