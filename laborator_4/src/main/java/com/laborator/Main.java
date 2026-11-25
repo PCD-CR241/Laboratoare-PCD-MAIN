@@ -106,7 +106,26 @@ public class Main extends Application{
             new Producator(depozit, "Producător " + i).start();
         }
 
-        // Consumatorii (Țurcan Ion): new Consumator(depozit, "Consumator " + i).start();
+        // Consumatorii (Țurcan Ion)
+        Consumator[] consumatori = new Consumator[Y];
+        for (int i = 0; i < Y; i++){
+            consumatori[i] = new Consumator(depozit, "Consumator " + (i + 1));
+            consumatori[i].start();
+        }
+
+        // Asteapta (join) ca toti consumatorii sa fie indestulati si anunta finalul
+        Thread final_ = new Thread(() -> {
+            for (Consumator c : consumatori){
+                try {
+                    c.join();
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+            Main.log("Toți consumatorii au primit câte " + Z + " numere. Gata!", true);
+        }, "Consumator final");
+        final_.setDaemon(true);
+        final_.start();
     }
 
     private static VBox createDepositPane(Button btnStart){
@@ -303,8 +322,67 @@ class Deposit{
         notifyAll();   // anunta consumatorii ca au aparut obiecte noi
     }
 
-    // get(...) pentru consumator - se adauga de colegul (Țurcan Ion).
-    // La final trebuie sa apeleze si Main.showDeposit(new ArrayList<>(obiecte)).
+    // Consumatorul ia 2 numere impare deodata din depozit (simetric cu put(a, b)).
+    // Daca nu sunt cel putin 2 numere, asteapta pana un producator pune ceva.
+    // (Țurcan Ion)
+    public synchronized int[] get(String consumator){
+        boolean anuntat = false;
+        while (obiecte.size() < 2){
+            if (!anuntat){
+                Main.log((obiecte.isEmpty() ? "Depozitul e gol" : "În depozit e doar " + obiecte)
+                        + " -> " + consumator + " așteaptă", true);
+                Main.setState(consumator, "așteaptă (gol)", -1);
+                anuntat = true;
+            }
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                return null;
+            }
+        }
+        // se iau primele 2 numere puse (cele mai vechi)
+        int a = obiecte.remove(0);
+        int b = obiecte.remove(0);
+        Main.log(consumator + " a luat din depozit: " + a + ", " + b
+                + " -> " + obiecte.size() + "/" + capacitate + " " + obiecte, false);
+        if (obiecte.isEmpty()){
+            Main.log("Depozitul e gol", true);
+        }
+        Main.showDeposit(new ArrayList<>(obiecte));
+        notifyAll();   // anunta producatorii ca s-a eliberat loc
+        return new int[]{a, b};
+    }
+}
+
+// Consumatorul: ia cate 2 numere impare din depozit pana primeste Z obiecte.
+// (Țurcan Ion)
+class Consumator extends Thread{
+
+    private final Deposit depozit;
+    private int luate = 0;   // cate numere a luat acest consumator
+
+    public Consumator(Deposit depozit, String nume){
+        super(nume);
+        this.depozit = depozit;
+    }
+
+    @Override
+    public void run(){
+        while (luate < Main.Z){
+            Main.setState(getName(), "vrea să ia 2 numere...", luate);
+            try {
+                sleep(300 + (int)(Math.random() * 700));   // timpul pana cere din nou
+            } catch (InterruptedException e) {
+                return;
+            }
+            int[] luat = depozit.get(getName());
+            if (luat == null) return;
+            luate += 2;
+            Main.setState(getName(), "a luat " + luat[0] + ", " + luat[1], luate);
+        }
+        Main.log(getName() + " a primit " + luate + " numere și a terminat", false);
+        Main.setState(getName(), "îndestulat ✓", luate);
+    }
 }
 
 // Producatorul: genereaza aleatoriu cate 2 numere impare (F = 2) si le pune in depozit.
