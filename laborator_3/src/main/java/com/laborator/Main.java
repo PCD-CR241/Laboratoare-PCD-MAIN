@@ -77,6 +77,7 @@ public class Main extends Application{
 
         nameLabel.getStyleClass().add("name-text");
         nameLabel.setMaxWidth(Double.MAX_VALUE);
+        nameLabel.setStyle("-fx-font-size: 18px;");   // incap pe un rand Numele si Prenumele
         BorderPane.setMargin(nameLabel, new Insets(8, 0, 0, 0));
         BorderPane mine = new BorderPane();
         mine.setCenter(createLogView(th12List));
@@ -193,7 +194,8 @@ public class Main extends Application{
         Platform.runLater(() -> {
             if (s != null) surname = s;
             if (n != null) name = n;
-            nameLabel.setText((surname + "    " + name).trim());
+            // Numele (Bargan) in stanga, Prenumele (Ilie) in dreapta
+            nameLabel.setText((name + "    " + surname).trim());
         });
     }
 
