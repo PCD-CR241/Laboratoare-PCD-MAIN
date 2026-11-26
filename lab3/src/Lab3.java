@@ -23,6 +23,7 @@ public class Lab3 {
 
         static final int DIM = 100;
         static int[] tablou = new int[DIM];
+        static final int GATA = 8;
 
         static SumatorDirect th1 = new SumatorDirect();
         static SumatorInvers th2 = new SumatorInvers();
@@ -47,7 +48,7 @@ public class Lab3 {
                 public void run() {
                         scrie(getName() + " a pornit\n");
                         calculeazaSume(getName(), 0, +1);
-
+                        th1.setPriority(GATA);
                         // join(): prenumele (3-lea) apare dupa ce Th4 a afisat grupa si s-a terminat
                         try {
                                 th4.join();
@@ -67,9 +68,12 @@ public class Lab3 {
                 public void run() {
                         scrie(getName() + " a pornit\n");
                         calculeazaSume(getName(), DIM - 1, -1);
-
+                        while(th1.getPriority()!= GATA || th3.getPriority()!= GATA || th4.getPriority()!=GATA){
+                             Thread.yield();
+                        }
                         // Th2 afiseaza primul: nu asteapta pe nimeni.
                         // sleep(): fiecare litera a numelui apare la 100 ms (in scrieTreptat)
+
                         scrieTreptat(getName(), nume);
                 }
         }
@@ -115,7 +119,7 @@ public class Lab3 {
                 public void run() {
                         scrie(getName() + " a pornit\n");
                         parcurgeInterval(getName(), 126, 987);
-
+                        th3.setPriority(GATA);
                         // isAlive() + yield(): disciplina (ultima) apare dupa ce Th1 a afisat prenumele;
                         // cat timp Th1 traieste, Th3 cedeaza procesorul
                         try{
@@ -136,6 +140,7 @@ public class Lab3 {
                 public void run() {
                         scrie(getName() + " a pornit\n");
                         parcurgeInterval(getName(), 899, 213);
+                        th4.setPriority(GATA);
 
                         // isAlive() + yield(): grupa (a 2-a) apare dupa ce Th2 a afisat numele;
                         // cat timp Th2 traieste, Th4 cedeaza procesorul
