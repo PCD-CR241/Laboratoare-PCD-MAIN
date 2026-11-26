@@ -284,8 +284,6 @@ public class Main extends Application{
 }
 
 
-// Depozitul (resursa comuna). Sincronizarea se face la nivelul depozitului,
-// prin metode synchronized si wait() / notifyAll(), ca in indrumar.
 class Deposit{
 
     private final int capacitate;                         // D = 5
@@ -298,8 +296,11 @@ class Deposit{
     // Producatorul pune 2 numere impare in depozit.
     // Daca nu incap ambele (depozitul e plin), asteapta pana un consumator ia ceva.
     public synchronized void put(String producator, int a, int b){
+
         boolean anuntat = false;
+
         while (obiecte.size() + 2 > capacitate){
+            
             if (!anuntat){
                 Main.log("Depozitul e plin " + obiecte + " -> " + producator + " așteaptă", true);
                 Main.setState(producator, "așteaptă (plin)", -1);
@@ -326,7 +327,9 @@ class Deposit{
     // Daca nu sunt cel putin 2 numere, asteapta pana un producator pune ceva.
     // (Țurcan Ion)
     public synchronized int[] get(String consumator){
+
         boolean anuntat = false;
+
         while (obiecte.size() < 2){
             if (!anuntat){
                 Main.log((obiecte.isEmpty() ? "Depozitul e gol" : "În depozit e doar " + obiecte)
@@ -359,7 +362,7 @@ class Deposit{
 class Consumator extends Thread{
 
     private final Deposit depozit;
-    private int luate = 0;   // cate numere a luat acest consumator
+    private int luate = 0; 
 
     public Consumator(Deposit depozit, String nume){
         super(nume);
@@ -368,10 +371,11 @@ class Consumator extends Thread{
 
     @Override
     public void run(){
+
         while (luate < Main.Z){
             Main.setState(getName(), "vrea să ia 2 numere...", luate);
             try {
-                sleep(300 + (int)(Math.random() * 700));   // timpul pana cere din nou
+                sleep(300 + (int)(Math.random() * 700));   
             } catch (InterruptedException e) {
                 return;
             }
