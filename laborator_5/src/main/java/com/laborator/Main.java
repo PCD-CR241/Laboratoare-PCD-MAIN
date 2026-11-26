@@ -132,7 +132,10 @@ public class Main extends Application{
             executor.execute(new Producator(depozit, "Producător " + i));
         }
 
-        // Consumatorii (Țurcan Ion): executor.execute(new Consumator(depozit, "Consumator " + i));
+        // Consumatorii (Țurcan Ion): sarcini trimise in acelasi pool fix
+        for (int i = 1; i <= Y; i++){
+            executor.execute(new Consumator(depozit, "Consumator " + i));
+        }
 
         executor.shutdown();   // nu se mai primesc sarcini noi; cele trimise se termina
 
@@ -414,9 +417,71 @@ class Deposit{
         return totalNecesar;
     }
 
-    // get(...) pentru consumator - se adauga de colegul (Țurcan Ion), cu coada.take().
-    // Dupa ce ia un numar: Main.totalConsumate.incrementAndGet() si
-    // Main.showDeposit(new ArrayList<>(coada)).
+    // Consumatorul ia un numar impar din depozit (Țurcan Ion).
+    // Sincronizarea o face BlockingQueue: take() asteapta singur cat timp coada e goala
+    // si, dupa ce scoate numarul, ii anunta pe producatorii care asteapta loc.
+    // Lacatul consumatorilor: un singur consumator ia si afiseaza la un moment dat,
+    // ca mesajele lor sa apara in ordine. Este separat de lacatProducatori,
+    // deci un consumator care asteapta in take() nu blocheaza producatorii.
+    private final Object lacatConsumatori = new Object();
+
+    public int get(String consumator) throws InterruptedException {
+        synchronized (lacatConsumatori){
+            if (coada.isEmpty()){
+                Main.log(consumator, "Depozitul e gol -> " + consumator + " așteaptă", true);
+                Main.setState(consumator, "așteaptă (gol)", -1);
+            }
+
+            int numar = coada.take();   // asteapta daca depozitul e gol
+            int total = Main.totalConsumate.incrementAndGet();
+            List<Integer> continut = new ArrayList<>(coada);   // o "fotografie" a cozii
+
+            Main.log(consumator, consumator + " a luat " + numar + " -> "
+                    + continut.size() + "/" + Main.D + " " + continut
+                    + " (total " + total + "/" + totalNecesar + ")", false);
+            if (continut.isEmpty()){
+                Main.log(consumator, "Depozitul e gol", true);
+            }
+            Main.showDeposit(continut);
+            return numar;
+        }
+    }
+}
+
+// Consumatorul (Țurcan Ion): sarcina (Runnable) executata de un fir din pool.
+// Ia numere impare din depozit pana este indestulat cu Z = 2 obiecte.
+// Apoi sarcina se termina si firul se intoarce in pool.
+class Consumator implements Runnable{
+
+    private final Deposit depozit;
+    private final String nume;
+    private int luate = 0;   // cate numere a luat acest consumator
+
+    public Consumator(Deposit depozit, String nume){
+        this.depozit = depozit;
+        this.nume = nume;
+    }
+
+    @Override
+    public void run(){
+        Main.log(nume, nume + " a pornit pe firul " + Thread.currentThread().getName(), false);
+        try {
+            while (luate < Main.Z){
+                Main.setState(nume, "vrea un număr...", luate);
+                Thread.sleep(300 + (int)(Math.random() * 700));   // pauza intre cereri
+
+                int numar = depozit.get(nume);
+                luate++;
+                Main.setState(nume, "a luat " + numar, luate);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();   // pool-ul a fost oprit (shutdownNow)
+            Main.setState(nume, "oprit", -1);
+            return;
+        }
+        Main.log(nume, nume + " a fost îndestulat cu " + luate + " numere", false);
+        Main.setState(nume, "îndestulat ✓", luate);
+    }
 }
 
 // Producatorul: sarcina (Runnable) executata de un fir din pool.
