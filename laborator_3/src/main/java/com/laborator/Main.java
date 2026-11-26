@@ -258,7 +258,7 @@ public class Main extends Application{
         int i = 0;
         int idx1, idx2, res;
         boolean wasInterrupted = false;
-        String surname = "Ilie";
+        String surname = "Țurcan, Bargan";
 
         public SumStart(String name) {
 
@@ -326,7 +326,7 @@ public class Main extends Application{
         int i = numbers.length - 1;
         int idx1, idx2, res;
         boolean wasInterrupted = false;
-        String name = "Bargan";
+        String name = "Ion, Ilie";
 
         public SumFinish(String name) {
 
