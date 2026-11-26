@@ -11,16 +11,17 @@ import java.util.Arrays;
  *  Th3 - Sarcina 3: parcurge de la inceput intervalul [126, 987]
  *  Th4 - Sarcina 4: parcurge de la sfarsit intervalul [213, 899]
  *
- * Th3 si Th4 ruleaza primele; Th1 si Th2 pornesc dupa ce Th3 si Th4 si-au terminat sarcinile.
- * Dupa sarcini: Th2 - numele, Th4 - grupa, Th1 - prenumele, Th3 - disciplina (litera cu litera, 100 ms).
+ * Toate firele pornesc din main si isi executa sarcinile in paralel, fara sincronizare.
+ * Sunt sincronizate doar afisarile de la sfarsit (litera cu litera, 100 ms), in ordinea 2, 4, 1, 3:
+ *   Th2 - numele, Th4 - grupa, Th1 - prenumele, Th3 - disciplina.
  *
- * Stecalovici (Th1, Th2) - metode: setPriority()/getPriority(), join()
- * Macovetchi  (Th3, Th4) - metode: interrupt(), isAlive()
+ * Metodele de sincronizare difera intre perechi:
+ *   Th1, Th2 (Stecalovici): join() + sleep()
+ *   Th3, Th4 (Macovetchi) : isAlive() + yield()
  */
 public class Lab3 {
 
         static final int DIM = 100;
-        static final int PRIORITATE_GATA = 9; // prioritatea folosita ca semnal "sarcina terminata"
         static int[] tablou = new int[DIM];
 
         static SumatorDirect th1 = new SumatorDirect();
@@ -28,14 +29,14 @@ public class Lab3 {
         static ParcurgereCrescatoare th3 = new ParcurgereCrescatoare();
         static ParcurgereDescrescatoare th4 = new ParcurgereDescrescatoare();
 
-        static String prenume = "Lucian";
-        static String nume = "Stecalovici";
+        static String prenume = "Lucian, Bogdan";
+        static String nume = "Stecalovici, Macovetchi";
         static String disciplina = "Programarea Concurenta si Distribuita";
         static String grupa = "CR-241";
 
         static JTextArea panou;
 
-        // ======================= Th1, Th2 (Stecalovici) =======================
+        // ======================= Th1, Th2 (Stecalovici): join() + sleep() =======================
 
         static class SumatorDirect extends Thread {
                 SumatorDirect() {
@@ -44,14 +45,10 @@ public class Lab3 {
 
                 @Override
                 public void run() {
-                        asteaptaStart(); // semnal de la Th4: sarcinile 3 si 4 sunt gata
                         scrie(getName() + " a pornit\n");
                         calculeazaSume(getName(), 0, +1);
 
-                        // setPriority(): anunta Th2 ca sarcina 1 s-a terminat
-                        th1.setPriority(PRIORITATE_GATA);
-
-                        // join(): prenumele apare dupa ce Th4 a afisat grupa
+                        // join(): prenumele (3-lea) apare dupa ce Th4 a afisat grupa si s-a terminat
                         try {
                                 th4.join();
                         } catch (InterruptedException e) {
@@ -68,28 +65,12 @@ public class Lab3 {
 
                 @Override
                 public void run() {
-                        asteaptaStart(); // semnal de la Th4: sarcinile 3 si 4 sunt gata
                         scrie(getName() + " a pornit\n");
                         calculeazaSume(getName(), DIM - 1, -1);
 
-                        // getPriority(): asteapta pana Th1 isi termina sarcina
-                        while (th1.getPriority() != PRIORITATE_GATA) {
-                                try {
-                                        Thread.sleep(10);
-                                } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                }
-                        }
+                        // Th2 afiseaza primul: nu asteapta pe nimeni.
+                        // sleep(): fiecare litera a numelui apare la 100 ms (in scrieTreptat)
                         scrieTreptat(getName(), nume);
-                }
-        }
-
-        // Th1 si Th2 dorm pana cand Th4 le trimite interrupt()
-        static void asteaptaStart() {
-                try {
-                        Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
-                        e.printStackTrace();
                 }
         }
 
@@ -122,7 +103,8 @@ public class Lab3 {
                 scrie(fir + ": perechi = " + nrPerechi + ", suma produselor = " + suma + "\n");
         }
 
-        // ======================= Th3, Th4 (Macovetchi) =======================
+
+        // ======================= Th3, Th4 (Macovetchi): isAlive() + yield() =======================
 
         static class ParcurgereCrescatoare extends Thread {
                 ParcurgereCrescatoare() {
@@ -134,16 +116,12 @@ public class Lab3 {
                         scrie(getName() + " a pornit\n");
                         parcurgeInterval(getName(), 126, 987);
 
-                        // interrupt(): anunta Th4 ca sarcina 3 s-a terminat
-                        th4.interrupt();
-
-                        // isAlive(): disciplina apare dupa ce Th1 a afisat prenumele
-                        while (th1.isAlive()) {
-                                try {
-                                        Thread.sleep(50);
-                                } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                }
+                        // isAlive() + yield(): disciplina (ultima) apare dupa ce Th1 a afisat prenumele;
+                        // cat timp Th1 traieste, Th3 cedeaza procesorul
+                        try{
+                                th1.join();
+                        }catch(InterruptedException e){
+                                e.printStackTrace();
                         }
                         scrieTreptat(getName(), disciplina);
                 }
@@ -159,24 +137,10 @@ public class Lab3 {
                         scrie(getName() + " a pornit\n");
                         parcurgeInterval(getName(), 899, 213);
 
-                        // asteapta interrupt() de la Th3; daca a venit deja, sleep() iese imediat
-                        try {
-                                Thread.sleep(Long.MAX_VALUE);
-                        } catch (InterruptedException e) {
-                                // sarcina 3 s-a terminat
-                        }
-
-                        // interrupt(): sarcinile 3 si 4 sunt gata -> pornesc Th1 si Th2
-                        th1.interrupt();
-                        th2.interrupt();
-
-                        // isAlive(): grupa apare dupa ce Th2 a afisat numele
+                        // isAlive() + yield(): grupa (a 2-a) apare dupa ce Th2 a afisat numele;
+                        // cat timp Th2 traieste, Th4 cedeaza procesorul
                         while (th2.isAlive()) {
-                                try {
-                                        Thread.sleep(50);
-                                } catch (InterruptedException e) {
-                                        return;
-                                }
+                                Thread.yield();
                         }
                         scrieTreptat(getName(), grupa);
                 }
@@ -194,12 +158,6 @@ public class Lab3 {
                         if (parcurse % 15 == 0) {
                                 scrie(fir + ": " + linie + "\n");
                                 linie.setLength(0);
-                        }
-                        try {
-                                Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                                // semnalul de la Th3 a venit in timpul parcurgerii: il pastram
-                                Thread.currentThread().interrupt();
                         }
                 }
                 if (linie.length() > 0) {
@@ -258,9 +216,10 @@ public class Lab3 {
                 creeazaFereastra();
                 scrie("Tabloul: " + Arrays.toString(tablou) + "\n\n");
 
-                th3.start();
-                th4.start();
+                // toate firele pornesc simultan; sarcinile ruleaza in paralel
                 th1.start();
                 th2.start();
+                th3.start();
+                th4.start();
         }
 }
