@@ -307,21 +307,17 @@ public class Main extends Application{
 
             }
 
-            boolean otherInterrupted = Thread.interrupted() || wasInterrupted;
-
+            // Th1 a terminat calculul: il anunta pe Th2 (il trezeste din sleep)
             fromFinish.interrupt();
 
-            if (!otherInterrupted) {
-
-                try {
-                    Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
-                }
+            // Th1 doarme pana il trezeste Th4 prin interrupt(), dupa ce Th4 a afisat grupa
+            // (ordinea ceruta: Th2 numele, Th4 grupa, Th1 prenumele, Th3 disciplina)
+            try {
+                Thread.sleep(Long.MAX_VALUE);
+            } catch (InterruptedException e) {
             }
 
-            show(th12List, "1. Surname: ", surname, true);
-
-            fromFinish.interrupt();
+            show(th12List, "1. Prenumele: ", surname, true);
         }
     }
 
@@ -381,11 +377,11 @@ public class Main extends Application{
 
             }
 
-            boolean otherInterrupted = Thread.interrupted() || wasInterrupted;
+            // A fost Th2 deja trezit de Th1 (Th1 a terminat calculul mai devreme)?
+            boolean th1Terminat = Thread.interrupted() || wasInterrupted;
 
-            fromStart.interrupt();
-
-            if (!otherInterrupted) {
+            // Daca nu, Th2 doarme pana il trezeste Th1 prin interrupt()
+            if (!th1Terminat) {
 
                 try {
                     Thread.sleep(Long.MAX_VALUE);
@@ -393,19 +389,17 @@ public class Main extends Application{
                 }
             }
 
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (InterruptedException e) {
-            }
-
-            show(th12List, "2. Name: ", name, false);
+            // Th2 afiseaza primul (numele), apoi se termina -> Th4 vede ca Th2 nu mai e viu
+            show(th12List, "2. Numele: ", name, false);
         }
     }
 
     // ===================== Th3 și Th4 — Țurcan Ion =====================
-    // Metode de sincronizare folosite (diferite de interrupt() de la Th1-Th2):
-    //   1) join()    - Th3 așteaptă ca Th4 să se termine complet
-    //   2) isAlive() - Th4 așteaptă cât timp Th2 mai este în viață
+    // Ordinea afișării cerută: Th2 numele -> Th4 grupa -> Th1 prenumele -> Th3 disciplina
+    // Metode de sincronizare folosite (diferite de sleep()/interrupt() de la Th1-Th2):
+    //   1) isAlive() - Th4 așteaptă cât timp Th2 mai este în viață, apoi afișează grupa
+    //                  și îl trezește pe Th1 (care doarme) ca să-și afișeze prenumele
+    //   2) join()    - Th3 așteaptă ca Th1 să se termine complet, apoi afișează disciplina
 
     // Clasa de bază: parcurge intervalul cu pasul dat, caută numerele pare două câte două
     // și afișează suma pozițiilor lor (poziția = indexul numărului în interval, de la 0)
@@ -467,10 +461,11 @@ public class Main extends Application{
             log(th34List, getName() + " a startat: [" + de_la + ", " + pana_la + "] de la început");
             parcurge(+1);
 
-            // Sincronizarea 1: join() - Th3 nu continuă până nu se termină Th4
-            log(th34List, getName() + " așteaptă Th4 prin join()");
+            // Sincronizarea 2: join() - Th3 nu continuă până nu se termină Th1
+            // (Th1 se termină doar după Th4, deci disciplina apare ultima)
+            log(th34List, getName() + " așteaptă Th1 prin join()");
             try {
-                inapoi.join();
+                fromStart.join();
             } catch (InterruptedException e) {
                 return;
             }
@@ -492,7 +487,7 @@ public class Main extends Application{
             log(th34List, getName() + " a startat: [" + pana_la + ", " + de_la + "] de la sfârșit");
             parcurge(-1);
 
-            // Sincronizarea 2: isAlive() - Th4 verifică periodic dacă Th2 încă rulează
+            // Sincronizarea 1: isAlive() - Th4 verifică periodic dacă Th2 încă rulează
             log(th34List, getName() + " așteaptă cât timp Th2.isAlive()");
             while (fromFinish.isAlive()) {
                 try {
@@ -503,6 +498,10 @@ public class Main extends Application{
             }
 
             scrieLent("4. Grupa: ", "CR-241", true);
+
+            // Grupa e afișată: Th1 (care doarme) poate afișa prenumele
+            log(th34List, getName() + " îl trezește pe Th1");
+            fromStart.interrupt();
         }
     }
 
