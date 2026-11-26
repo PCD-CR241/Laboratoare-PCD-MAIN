@@ -35,9 +35,9 @@ public class Main {
 
 
         th4.interrupt();
+        th4.join();
 
         th1.join();
-
 
         th3.interrupt();
         th3.join();
