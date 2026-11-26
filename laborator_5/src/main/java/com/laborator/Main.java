@@ -14,8 +14,8 @@ Dimensiunea depozitului este 5 obiecte.
 
 Tip obiecte: Numere impare
 
-Producator: Bargan Ilie
-Consumator: Țurcan Ion
+Producator: Țurcan Ion
+Consumator: Bargan Ilie
 
 */
 
@@ -63,7 +63,7 @@ public class Main extends Application{
     static Deposit depozit = new Deposit(D, Y * Z);
     static ExecutorService executor;
 
-    // Contor pentru consumatori (il incrementeaza consumatorii - Țurcan Ion)
+    // Contor pentru consumatori (il incrementeaza consumatorii - Bargan Ilie)
     static final AtomicInteger totalConsumate = new AtomicInteger(0);
 
     // Elementele interfetei
@@ -103,8 +103,8 @@ public class Main extends Application{
         }
 
         SplitPane sp = new SplitPane(
-                createPane("Producători (" + X + ") — Bargan Ilie", cardProd, createLogView(logProducatori)),
-                createPane("Consumatori (" + Y + ") — Țurcan Ion", cardCons, createLogView(logConsumatori)));
+                createPane("Producători (" + X + ") — Țurcan Ion", cardProd, createLogView(logProducatori)),
+                createPane("Consumatori (" + Y + ") — Bargan Ilie", cardCons, createLogView(logConsumatori)));
         sp.setDividerPosition(0, 0.5);
         BorderPane.setMargin(sp, new Insets(16, 0, 16, 0));
         bdRoot.setCenter(sp);
@@ -132,7 +132,7 @@ public class Main extends Application{
             executor.execute(new Producator(depozit, "Producător " + i));
         }
 
-        // Consumatorii (Țurcan Ion): sarcini trimise in acelasi pool fix
+        // Consumatorii (Bargan Ilie): sarcini trimise in acelasi pool fix
         for (int i = 1; i <= Y; i++){
             executor.execute(new Consumator(depozit, "Consumator " + i));
         }
@@ -417,7 +417,7 @@ class Deposit{
         return totalNecesar;
     }
 
-    // Consumatorul ia un numar impar din depozit (Țurcan Ion).
+    // Consumatorul ia un numar impar din depozit (Bargan Ilie).
     // Sincronizarea o face BlockingQueue: take() asteapta singur cat timp coada e goala
     // si, dupa ce scoate numarul, ii anunta pe producatorii care asteapta loc.
     // Lacatul consumatorilor: un singur consumator ia si afiseaza la un moment dat,
@@ -448,7 +448,7 @@ class Deposit{
     }
 }
 
-// Consumatorul (Țurcan Ion): sarcina (Runnable) executata de un fir din pool.
+// Consumatorul (Bargan Ilie): sarcina (Runnable) executata de un fir din pool.
 // Ia numere impare din depozit pana este indestulat cu Z = 2 obiecte.
 // Apoi sarcina se termina si firul se intoarce in pool.
 class Consumator implements Runnable{
