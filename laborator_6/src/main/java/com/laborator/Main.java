@@ -136,8 +136,12 @@ public class Main extends Application{
             p.start();
         }
 
-        // Consumatorii (Țurcan Ion):
-        //   Consumator c = new Consumator(depozit, "Consumator " + i); fire.add(c); c.start();
+        // Consumatorii (Țurcan Ion)
+        for (int i = 1; i <= Y; i++){
+            Consumator c = new Consumator(depozit, "Consumator " + i);
+            fire.add(c);
+            c.start();
+        }
 
         // Asteapta (join) toate firele si afiseaza raportul final
         Thread final_ = new Thread(() -> {
@@ -489,6 +493,87 @@ class Producator extends Thread{
             // ca sa vada ca nu mai au ce produce si sa se termine
             if (depozit.totalProduse == depozit.totalNecesar){
                 depozit.depozitGol.signalAll();
+            }
+
+            Main.showDeposit(depozit);
+            return true;
+        } finally {
+            depozit.lock.unlock();   // lacatul se elibereaza mereu, chiar si la exceptie
+        }
+    }
+}
+
+// Consumatorul (Țurcan Ion): thread clasic care consuma cate 1 numar impar.
+// Sincronizarea consumatorului (doar clase de sincronizare: ReentrantLock + Condition):
+//   - consuma doar in faza de GOLIRE; in faza de UMPLERE asteapta cu depozitPlin.await();
+//   - cand ia ultimul obiect (depozitul devine gol), trece in faza de UMPLERE si
+//     trezeste producatorii cu depozitGol.signalAll();
+//   - se opreste cand s-au consumat Z obiecte.
+class Consumator extends Thread{
+
+    private final Deposit depozit;
+    private int consumate = 0;   // cate numere a consumat acest consumator
+    private int ultimul;         // ultimul numar consumat
+
+    public Consumator(Deposit depozit, String nume){
+        super(nume);
+        this.depozit = depozit;
+    }
+
+    @Override
+    public void run(){
+        try {
+            while (consuma()){
+                Main.setState(getName(), "a consumat " + ultimul, consumate);
+                Thread.sleep(300 + (int)(Math.random() * 500));   // timpul de "consumare"
+            }
+        } catch (InterruptedException e) {
+            Main.setState(getName(), "oprit", -1);
+            return;
+        }
+        Main.log(getName() + " s-a finalizat (a consumat " + consumate + " numere)", false);
+        Main.setState(getName(), "finalizat", consumate);
+    }
+
+    // Ia 1 obiect din depozit.
+    // Intoarce false daca s-au consumat deja toate cele Z obiecte.
+    private boolean consuma() throws InterruptedException {
+        depozit.lock.lock();
+        try {
+            // Consumatorii nu pot consuma pana cand depozitul nu va fi plin
+            boolean anuntat = false;
+            while ((depozit.umplere || depozit.eGol()) && depozit.totalConsumate < depozit.totalNecesar){
+                if (!anuntat){
+                    Main.log(getName() + " așteaptă umplerea depozitului", false);
+                    Main.setState(getName(), "așteaptă (umplere)", -1);
+                    anuntat = true;
+                }
+                depozit.depozitPlin.await();   // elibereaza lacatul si asteapta semnalul
+            }
+
+            if (depozit.totalConsumate >= depozit.totalNecesar){
+                return false;   // s-au consumat toate obiectele
+            }
+
+            int numar = depozit.obiecte.removeFirst();
+            ultimul = numar;
+            depozit.totalConsumate++;
+            consumate++;
+            Main.log(getName() + " a consumat " + numar + " -> " + depozit.obiecte.size() + "/"
+                    + depozit.capacitate + " " + depozit.obiecte
+                    + " (total " + depozit.totalConsumate + "/" + depozit.totalNecesar + ")", false);
+
+            // Depozitul s-a golit: incepe faza de umplere, se trezesc producatorii
+            if (depozit.eGol()){
+                depozit.umplere = true;
+                Main.log("Depozitul e gol -> produc producătorii", true);
+                depozit.depozitGol.signalAll();
+            }
+
+            // S-au consumat toate cele Z obiecte: trezeste consumatorii care asteapta,
+            // ca sa vada ca nu mai au ce consuma si sa se termine
+            if (depozit.totalConsumate == depozit.totalNecesar){
+                depozit.depozitPlin.signalAll();
             }
 
             Main.showDeposit(depozit);
