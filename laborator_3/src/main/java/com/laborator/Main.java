@@ -391,6 +391,16 @@ public class Main extends Application{
                 }
             }
 
+            // Afisarea incepe doar dupa finalizarea sarcinilor tuturor firelor:
+            // Th2 verifica periodic (sleep) daca si Th3, Th4 si-au terminat sarcinile
+            while (!inainte.sarcinaTerminata || !inapoi.sarcinaTerminata) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                }
+            }
+            log(th12List, "Toate sarcinile Th1-Th4 s-au terminat, începe afișarea");
+
             // Th2 afiseaza primul (numele), apoi se termina -> Th4 vede ca Th2 nu mai e viu
             show(th12List, "2. Numele: ", name, false);
         }
@@ -409,6 +419,9 @@ public class Main extends Application{
 
         protected final int de_la, pana_la;
         protected final int inceput;   // primul număr din interval (are poziția 0)
+
+        // devine true când firul a terminat de parcurs intervalul (sarcina lui)
+        volatile boolean sarcinaTerminata = false;
 
         Parcurgere(String nume, int de_la, int pana_la) {
             super(nume);
@@ -447,6 +460,7 @@ public class Main extends Application{
                 }
             }
             log(th34List, getName() + " a terminat: " + perechi + " perechi");
+            sarcinaTerminata = true;
         }
     }
 
